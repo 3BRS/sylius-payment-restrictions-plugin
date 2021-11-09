@@ -12,8 +12,8 @@
     <a href="https://packagist.org/packages/3brs/sylius-payment-restrictions-plugin" title="Version" target="_blank">
         <img src="https://img.shields.io/packagist/v/3brs/sylius-payment-restrictions-plugin.svg" />
     </a>
-    <a href="https://travis-ci.com/3brs/sylius-payment-restrictions-plugin" title="Build status" target="_blank">
-        <img src="https://img.shields.io/travis/3brs/sylius-payment-restrictions-plugin/master.svg" />
+    <a href="https://circleci.com/gh/3BRS/sylius-payment-restrictions-plugin" title="Build status" target="_blank">
+        <img src="https://circleci.com/gh/3BRS/sylius-payment-restrictions-plugin.svg?style=shield" />
     </a>
 </h1>
 
@@ -28,7 +28,7 @@
 
 ## Installation
 
-1. Run `$ composer require mangoweb-sylius/sylius-payment-restrictions-plugin`.
+1. Run `$ composer require 3brs/sylius-payment-restrictions-plugin`.
 1. Add plugin class to your `config/bundles.php`:
  
    ```php
@@ -55,7 +55,7 @@
    
    /**
     * @ORM\Entity
-    * @ORM\Table(name="sylius_payment")
+    * @ORM\Table(name="sylius_payment_method")
     */
    class PaymentMethod extends BasePayment implements PaymentMethodRestrictionInterface
    {
@@ -74,21 +74,10 @@
  
     ```twig
     ...
-    <div class="ui segment">
-        <h4 class="ui dividing header">{{ 'sylius.ui.details'|trans }}</h4>
-        {{ form_errors(form) }}
-
-        <div class="three fields">
-            {{ form_row(form.code) }}
-            {{ form_row(form.zone) }}
-            {{ form_row(form.position) }}
-        </div>
-        {{ form_row(form.enabled) }}
-        <div class="two fields">
-            {{ form_row(form.channels) }}
-            {{ form_row(form.shippingMethods) }}
-        </div>
-    </div>
+	<div class="two fields">
+		{{ form_row(form.zone) }}
+		{{ form_row(form.shippingMethods) }}
+	</div>
     ...
     ```
 
@@ -104,7 +93,6 @@ For guide to use your own entity see [Sylius docs - Customizing Models](https://
 - See `bin/` for useful commands
 
 ### Testing
-
 
 After your changes you must ensure that the tests are still passing.
 

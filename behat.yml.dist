@@ -4,11 +4,6 @@ imports:
 
 default:
     extensions:
-        Lakion\Behat\MinkDebugExtension:
-            directory: etc/build
-            clean_start: false
-            screenshot: true
-
         Behat\MinkExtension:
             base_url: "http://localhost:8080/"
             default_session: symfony
@@ -19,7 +14,7 @@ default:
         FriendsOfBehat\SymfonyExtension:
             bootstrap: tests/Application/config/bootstrap.php
             kernel:
-                class: Tests\MangoSylius\PaymentRestrictionPlugin\Application\Kernel
+                class: Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Application\Kernel
 
         FriendsOfBehat\VariadicExtension: ~
 

@@ -19,6 +19,6 @@ doctrine:
             App:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'Tests\MangoSylius\PaymentRestrictionPlugin\Application\src\Entity'
+                dir: '%kernel.project_dir%/Entity'
+                prefix: 'Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Application\Entity'
                 alias: App

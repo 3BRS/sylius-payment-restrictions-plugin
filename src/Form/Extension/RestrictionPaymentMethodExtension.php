@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MangoSylius\PaymentRestrictionPlugin\Form\Extension;
+namespace ThreeBRS\SyliusPaymentRestrictionPlugin\Form\Extension;
 
 use Sylius\Bundle\AddressingBundle\Form\Type\ZoneChoiceType;
 use Sylius\Bundle\PaymentBundle\Form\Type\PaymentMethodType;
@@ -13,40 +13,40 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class RestrictionPaymentMethodExtension extends AbstractTypeExtension
 {
-	/** @var string */
-	private $shippingMethodClass;
+    /** @var string */
+    private $shippingMethodClass;
 
-	public function __construct(
-		string $shippingMethodClass
-	) {
-		$this->shippingMethodClass = $shippingMethodClass;
-	}
+    public function __construct(
+        string $shippingMethodClass
+    ) {
+        $this->shippingMethodClass = $shippingMethodClass;
+    }
 
-	/** @param array<mixed> $options */
-	public function buildForm(FormBuilderInterface $builder, array $options): void
-	{
-		$builder
-			->add('zone', ZoneChoiceType::class, [
-				'label' => 'sylius.form.address.zone',
-				'placeholder' => 'sylius.form.zone.scopes.all',
-			])
-			->add('shippingMethods', EntityType::class, [
-				'label' => 'mangoweb.admin.paymentMethod.form.shippingMethods',
-				'class' => $this->shippingMethodClass,
-				'expanded' => true,
-				'multiple' => true,
-				'required' => true,
-				'choice_label' => function (ShippingMethodInterface $shippingMethod = null) {
-					return $shippingMethod ? $shippingMethod->getName() . ' (' . $shippingMethod->getCode() . ')' : '';
-				},
-			]);
-	}
+    /** @param array<mixed> $options */
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('zone', ZoneChoiceType::class, [
+                'label' => 'sylius.form.address.zone',
+                'placeholder' => 'sylius.form.zone.scopes.all',
+            ])
+            ->add('shippingMethods', EntityType::class, [
+                'label' => 'threebrs.admin.paymentMethod.form.shippingMethods',
+                'class' => $this->shippingMethodClass,
+                'expanded' => true,
+                'multiple' => true,
+                'required' => true,
+                'choice_label' => function (ShippingMethodInterface $shippingMethod = null) {
+                    return $shippingMethod ? $shippingMethod->getName() . ' (' . $shippingMethod->getCode() . ')' : '';
+                },
+            ]);
+    }
 
-	/** @return array<string> */
-	public static function getExtendedTypes(): array
-	{
-		return [
-			PaymentMethodType::class,
-		];
-	}
+    /** @return array<string> */
+    public static function getExtendedTypes(): array
+    {
+        return [
+            PaymentMethodType::class,
+        ];
+    }
 }
