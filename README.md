@@ -34,11 +34,11 @@
    ```php
    return [
       ...
-      MangoSylius\PaymentRestrictionPlugin\MangoSyliusPaymentRestrictionPlugin::class => ['all' => true],
+      ThreeBRS\SyliusPaymentRestrictionPlugin\MangoSyliusPaymentRestrictionPlugin::class => ['all' => true],
    ];
    ```
    
-1. Your Entity `PaymentMethod` has to implement `\MangoSylius\PaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface`. You can use Trait `MangoSylius\PaymentRestrictionPlugin\Model\PaymentMethodRestrictionTrait`.
+1. Your Entity `PaymentMethod` has to implement `\ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface`. You can use Trait `ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionTrait`.
  
    ```php
    <?php 
@@ -50,8 +50,8 @@
    use Doctrine\Common\Collections\ArrayCollection;
    use Doctrine\ORM\Mapping as ORM;
    use Sylius\Component\Core\Model\Payment as BasePayment;
-   use MangoSylius\PaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface;
-   use MangoSylius\PaymentRestrictionPlugin\Model\PaymentMethodRestrictionTrait;
+   use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface;
+   use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionTrait;
    
    /**
     * @ORM\Entity
