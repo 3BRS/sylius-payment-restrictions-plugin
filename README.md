@@ -34,7 +34,7 @@
    ```php
    return [
       ...
-      ThreeBRS\SyliusPaymentRestrictionPlugin\MangoSyliusPaymentRestrictionPlugin::class => ['all' => true],
+      ThreeBRS\SyliusPaymentRestrictionPlugin\ThreeBRSSyliusPaymentRestrictionPlugin::class => ['all' => true],
    ];
    ```
    
