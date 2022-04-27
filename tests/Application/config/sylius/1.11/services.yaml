@@ -1,0 +1,3 @@
+services:
+  Sylius\Calendar\Provider\DateTimeProviderInterface:
+    class: Sylius\Calendar\Provider\Calendar
