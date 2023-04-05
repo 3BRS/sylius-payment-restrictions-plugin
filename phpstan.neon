@@ -1,18 +1,8 @@
-includes:
-    - vendor/phpstan/phpstan-doctrine/extension.neon
-    - vendor/phpstan/phpstan-symfony/extension.neon
-
 parameters:
-    symfony:
-        container_xml_path: tests/Application/var/cache/test/testContainer.xml
+    level: 7
+    paths:
+        - src
 
-    excludes_analyse:
-        # Too slow
-        - 'src/DependencyInjection/Configuration.php'
-
-        # Test dependencies
-        - '*/tests/Application/var/*'
-
-        - '*/tests/Behat/*'
-
-        - 'tests/'
+    reportUnmatchedIgnoredErrors: false
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
