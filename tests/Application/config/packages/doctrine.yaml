@@ -7,10 +7,12 @@ parameters:
 
 doctrine:
     dbal:
-        driver: 'pdo_sqlite'
-        path: "%kernel.project_dir%/var/db.sql"
+        driver: 'pdo_mysql'
+        server_version: '5.7'
         charset: UTF8
 
+        url: '%env(resolve:DATABASE_URL)%'
+    
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -18,7 +20,7 @@ doctrine:
         mappings:
             App:
                 is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/Entity'
+                type: attribute
+                dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Application\Entity'
                 alias: App

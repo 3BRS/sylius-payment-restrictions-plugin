@@ -29,7 +29,7 @@
 ## Installation
 
 1. Run `$ composer require 3brs/sylius-payment-restrictions-plugin`.
-1. Add plugin class to your `config/bundles.php`:
+2. Add plugin class to your `config/bundles.php`:
  
    ```php
    return [
@@ -38,7 +38,7 @@
    ];
    ```
    
-1. Your Entity `PaymentMethod` has to implement `\ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface`. You can use Trait `ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionTrait`.
+3. Your Entity `PaymentMethod` has to implement `\ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface`. You can use Trait `ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionTrait`.
  
    ```php
    <?php 
@@ -52,11 +52,9 @@
    use Sylius\Component\Core\Model\Payment as BasePayment;
    use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface;
    use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionTrait;
-   
-   /**
-    * @ORM\Entity
-    * @ORM\Table(name="sylius_payment_method")
-    */
+
+    #[ORM\Entity]
+    #[ORM\Table(name: 'sylius_payment_method')]
    class PaymentMethod extends BasePayment implements PaymentMethodRestrictionInterface
    {
        use PaymentMethodRestrictionTrait;
@@ -70,7 +68,7 @@
    }
    ```
 
-1. Change `@SyliusAdmin/PaymentMethod/_form.html.twig`.
+4. Change `@SyliusAdmin/PaymentMethod/_form.html.twig`.
  
     ```twig
     ...
@@ -81,7 +79,7 @@
     ...
     ```
 
-1. Create and run doctrine database migrations.
+5. Create and run doctrine database migrations.
 
 For guide to use your own entity see [Sylius docs - Customizing Models](https://docs.sylius.com/en/1.6/customization/model.html)
 
@@ -96,12 +94,18 @@ For guide to use your own entity see [Sylius docs - Customizing Models](https://
 
 After your changes you must ensure that the tests are still passing.
 
+#### Prerequisites
 ```bash
-$ composer install
-$ bin/console doctrine:schema:create -e test
-$ bin/behat
-$ bin/phpstan.sh
-$ bin/ecs.sh
+composer install
+yarn --cwd tests/Application install
+yarn --cwd tests/Application build
+tests/Application/bin/console doctrine:schema:create --env test
+```
+
+
+```bash
+$ composer analyze
+$ composer test 
 ```
 
 License

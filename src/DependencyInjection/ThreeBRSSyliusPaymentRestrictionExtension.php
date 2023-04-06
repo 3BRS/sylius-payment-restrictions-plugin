@@ -11,6 +11,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class ThreeBRSSyliusPaymentRestrictionExtension extends Extension
 {
+    /**
+     * @inheritDoc
+     */
+    // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));

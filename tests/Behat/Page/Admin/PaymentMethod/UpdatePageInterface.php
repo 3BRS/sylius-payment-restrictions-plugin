@@ -12,7 +12,7 @@ interface UpdatePageInterface extends BaseUpdatePageInterface
 
     public function changeZone(string $zoneCode): void;
 
-    public function activateForShippinMethod(int $shippmentMethodId): void;
+    public function activateForShippingMethod(int $shippmentMethodId): void;
 
-    public function isActivateForShippinMethod(int $shippmentMethodId): bool;
+    public function isActivateForShippingMethod(int $shippmentMethodId): bool;
 }

@@ -50,7 +50,9 @@
 
     <rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure"/>
 
-    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+        <exclude-pattern>src/Model/PaymentMethodRestrictionInterface.php</exclude-pattern>
+    </rule>
 
     <rule ref="SlevomatCodingStandard.PHP.DisallowReference"/>
     <rule ref="SlevomatCodingStandard.PHP.RequireExplicitAssertion"/>

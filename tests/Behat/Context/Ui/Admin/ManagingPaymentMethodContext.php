@@ -39,7 +39,7 @@ final class ManagingPaymentMethodContext implements Context
      */
     public function iSelectShippingMethod(ShippingMethodInterface $shippingMethod)
     {
-        $this->updatePage->activateForShippinMethod($shippingMethod->getId());
+        $this->updatePage->activateForShippingMethod($shippingMethod->getId());
     }
 
     /**
@@ -47,7 +47,7 @@ final class ManagingPaymentMethodContext implements Context
      */
     public function thisPaymentMethodHasShippingMethod(PaymentMethodInterface $paymentMethod, ShippingMethodInterface $shippingMethod)
     {
-        Assert::true($this->updatePage->isActivateForShippinMethod($shippingMethod->getId()));
+        Assert::true($this->updatePage->isActivateForShippingMethod($shippingMethod->getId()));
     }
 
     /**

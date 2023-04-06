@@ -18,13 +18,14 @@ final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
         return $this->getElement($elementName)->getValue();
     }
 
-    public function activateForShippinMethod(int $id): void
+    public function activateForShippingMethod(int $id): void
     {
         $Page = $this->getSession()->getPage();
+
         $Page->find('css', '#sylius_payment_method_shippingMethods_' . $id)->setValue(true);
     }
 
-    public function isActivateForShippinMethod(int $id): bool
+    public function isActivateForShippingMethod(int $id): bool
     {
         $Page = $this->getSession()->getPage();
 

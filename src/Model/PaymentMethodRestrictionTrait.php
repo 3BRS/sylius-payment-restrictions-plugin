@@ -11,21 +11,17 @@ use Sylius\Component\Core\Model\ShippingMethodInterface;
 
 trait PaymentMethodRestrictionTrait
 {
-    /**
-     * @var ZoneInterface|null
-     * @ORM\ManyToOne(targetEntity="Sylius\Component\Addressing\Model\ZoneInterface")
-     */
-    private $zone;
+    #[ORM\ManyToOne(targetEntity: ZoneInterface::class)]
+    private ?ZoneInterface $zone = null;
 
     /**
-     * @var Collection<array-key, ShippingMethodInterface>|ShippingMethodInterface[]
-     * @ORM\ManyToMany(targetEntity="Sylius\Component\Core\Model\ShippingMethod", inversedBy="paymentMethods")
-     * @ORM\JoinTable(name="threebrs_payment_method_shipping_method",
-     *     joinColumns={@ORM\JoinColumn(name="payment_method_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="method_shipping_id", referencedColumnName="id")}
-     * )
+     * @var Collection<array-key, ShippingMethodInterface>
      */
-    private $shippingMethods;
+    #[ORM\ManyToMany(targetEntity: ShippingMethodInterface::class, inversedBy: 'paymentMethods')]
+    #[ORM\JoinTable(name: 'threebrs_payment_method_shipping_method')]
+    #[ORM\JoinColumn(name: 'payment_method_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'method_shipping_id', referencedColumnName: 'id')]
+    private Collection $shippingMethods;
 
     public function getZone(): ?ZoneInterface
     {

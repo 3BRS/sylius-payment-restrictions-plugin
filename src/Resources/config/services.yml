@@ -4,7 +4,7 @@ services:
         autoconfigure: false
         public: false
 
-    ThreeBRS\SyliusPaymentRestrictionPlugin\Model\ThreeBRSSyliusResolvePaymentMethodForOrder:
+    ThreeBRS\SyliusPaymentRestrictionPlugin\PaymentResolver\Filter\PaymentMethodsFilter:
         arguments:
             $zoneMatcher: '@sylius.zone_matcher'
 
@@ -16,7 +16,7 @@ services:
               priority: 100
         arguments:
             $paymentMethodRepository: '@sylius.repository.payment_method'
-            $paymentOrderResolver: '@ThreeBRS\SyliusPaymentRestrictionPlugin\Model\ThreeBRSSyliusResolvePaymentMethodForOrder'
+            $paymentMethodsFilter: '@ThreeBRS\SyliusPaymentRestrictionPlugin\PaymentResolver\Filter\PaymentMethodsFilter'
 
     ThreeBRS\SyliusPaymentRestrictionPlugin\Form\Extension\RestrictionPaymentMethodExtension:
         tags:

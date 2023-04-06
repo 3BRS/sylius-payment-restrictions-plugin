@@ -53,5 +53,13 @@
 			"vendor/bin/phpstan analyse -c phpstan.neon",
 			"vendor/bin/phpcs"
 		]
-	}
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+        "test": [
+            "bin/behat"
+        ]
+    }
 }
