@@ -1,0 +1,32 @@
+# Intended for local development, use at your own risk
+
+version: "3.4"
+
+services:
+    php:
+        container_name: php_sylius_payment_restriction
+        image: 'jaroslavtyc/praguebest-sylius-plugin-dev.8.0:latest'
+        environment:
+            XDEBUG_CONFIG: "client_host=172.17.0.1 client_port=9003 remote_log=/tmp/xdebug.log"
+            XDEBUG_TRIGGER: "yes" # to start XDebug for EVERY request (use `export XDEBUG_TRIGGER: "yes"` to enable it in CLI and `unset XDEBUG_TRIGGER` to disable for CLI again - in browser use same-named variable in GET, POST or COOKIE, or legacy named via some browser extension). For a single shot can be used inline environment variable like `XDEBUG_TRIGGER=yes ./bin/console
+            PHP_IDE_CONFIG: "serverName=SyliusSorting"
+            APP_ENV: "test"
+            APP_DEBUG: "1"
+            APP_SECRET: "${APP_SECRET:-EDITME}"
+            DATABASE_URL: "mysql://${MYSQL_USER:-root}:${MYSQL_PASSWORD:-pass_root}@mysql_sylius_payment_restriction:3306/${MYSQL_DATABASE:-sylius_payment_restriction_plugin_test}"
+            MAILER_URL: "smtp://mailhog:1025"
+            PHP_DATE_TIMEZONE: "${PHP_DATE_TIMEZONE:-UTC}"
+        volumes:
+            - .:/srv/sylius:rw,delegated
+
+    mysql_sylius_payment_restriction:
+        image: mysql:8.0
+        container_name: mysql_sylius_payment_restriction
+        environment:
+            - MYSQL_ROOT_PASSWORD=pass_root
+            - MYSQL_DATABASE=sylius_payment_restriction_plugin_test
+            - MYSQL_USER=sylius
+            - MYSQL_PASSWORD=pass
+        ports:
+            # set MYSQL_HOST_MAPPING_PORT variable in .env file for example
+            - "${MYSQL_HOST_MAPPING_PORT:-33306}:3306"

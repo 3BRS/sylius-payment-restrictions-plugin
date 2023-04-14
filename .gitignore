@@ -10,9 +10,9 @@
 
 docker-compose.override.yaml
 docker-compose.override.dist.yaml
-docker-compose.yaml
 /bin-docker/
 /deploy/
 /docker/
 
 yarn-error.log
+/.phpcs-cache

@@ -8,19 +8,19 @@ workflows:
                     php_version: "8.0"
                     matrix:
                         parameters:
-                            sylius_version: [ "1.11", "1.12" ]
+                            sylius_version: [ "1.12" ]
             -   build:
                     name: php-8.1-sylius-<< matrix.sylius_version >>
                     php_version: "8.1"
                     matrix:
                         parameters:
-                            sylius_version: [ "1.11", "1.12" ]
+                            sylius_version: [ "1.12" ]
             -   build:
                     name: php-8.2-sylius-<< matrix.sylius_version >>
                     php_version: "8.2"
                     matrix:
                         parameters:
-                            sylius_version: [ "1.11", "1.12" ]
+                            sylius_version: [ "1.12" ]
 
 jobs:
     build:
@@ -49,7 +49,7 @@ jobs:
             -   restore_cache:
                     keys:
                         - vendor-cache-prefer-dist-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
-            -   run: composer update --no-interaction --prefer-dist
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   save_cache:
@@ -68,10 +68,12 @@ jobs:
             -   run: composer analyze
             -   run: composer test
 
+            # has to delete vendor for next test with different libraries version to avoid Composer error 'Failed to extract...' if vendor dir cache does not exist
+            -   run: rm -fr vendor composer.lock
             -   restore_cache:
                     keys:
                         - vendor-cache-prefer-lowest-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
-            -   run: composer update --no-interaction --prefer-lowest
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-lowest
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   save_cache:

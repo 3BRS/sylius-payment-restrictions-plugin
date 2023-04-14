@@ -104,8 +104,7 @@ tests/Application/bin/console doctrine:schema:create --env test
 
 
 ```bash
-$ composer analyze
-$ composer test 
+$ composer check 
 ```
 
 License
