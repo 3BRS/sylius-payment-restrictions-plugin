@@ -1,36 +1,59 @@
-# Intended for local development, use at your own risk
-
 version: "3.4"
 
 services:
     php:
-        container_name: php_sylius_payment_restriction
-        image: 'jaroslavtyc/praguebest-sylius-plugin-dev.8.0:latest'
+        container_name: php-sylius-payment-restriction
+        hostname: php-sylius-plugin-dev # nginx container depends on this DNS name, see 'set $backendfpm' in https://github.com/pb-sylius/docker-plugin-dev/blob/php8.0/docker/nginx/conf.d/default.conf
+        image: 'jaroslavtyc/praguebest-sylius-plugin-dev-php:8.0'
         environment:
             XDEBUG_CONFIG: "client_host=172.17.0.1 client_port=9003 remote_log=/tmp/xdebug.log"
             XDEBUG_TRIGGER: "no" # use XDEBUG_TRIGGER: "no" in docker-compose.override.yml to start XDebug for EVERY request (use `export XDEBUG_TRIGGER: "yes"` to enable it in CLI and `unset XDEBUG_TRIGGER` to disable for CLI again - in browser use same-named variable in GET, POST or COOKIE, or legacy named via some browser extension). For a single shot can be used inline environment variable like `XDEBUG_TRIGGER=yes ./bin/console
-            PHP_IDE_CONFIG: "serverName=SyliusSorting"
+            PHP_IDE_CONFIG: "serverName=SyliusSorting" # key for IDE XDebug profile
             APP_ENV: "test"
             APP_DEBUG: "1"
             APP_SECRET: "${APP_SECRET:-EDITME}"
-            DATABASE_URL: "mysql://${MYSQL_USER:-root}:${MYSQL_PASSWORD:-pass_root}@mysql_sylius_payment_restriction:3306/${MYSQL_DATABASE:-sylius_payment_restriction_plugin_test}"
+            # set MYSQL_ variables in .env file or in docker-compose.override.yml
+            DATABASE_URL: "mysql://${MYSQL_USER:-root}:${MYSQL_PASSWORD:-pass_root}@mysql-sylius-payment-restriction:3306/${MYSQL_DATABASE:-sylius_payment_restriction_plugin_test}"
             MAILER_URL: "smtp://mailhog:1025"
             PHP_DATE_TIMEZONE: "${PHP_DATE_TIMEZONE:-UTC}"
         volumes:
+            # - ./docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint:rw,delegated # to propagate bootstrap changes into Docker without this image rebuild
+            # - ./docker/php/docker-change-user-id.sh:/usr/local/bin/docker-change-user-id:rw,delegated # to propagate bootstrap changes into Docker without this image rebuild
             - .:/srv/sylius:rw,delegated
         ports:
-            # set PHP_HOST_MAPPING_PORT variable in .env file for example, or extends ports in docker-compose.override.yml, or just let it be with 0 for "first available"
-            # use `docker ps` and look for PORTS column to see mapped host port, including IP it can be for example http://0.0.0.0:32770/ which is roughly equivalent to http://127.0.0.1:32770/ for web browser
+            # mapped PHP web port is useful to connect to PHP built-in web server
+            # Host port 0 is for "first available"
+            # How to change it:
+            # - set PHP_HOST_MAPPING_PORT variable in .env file for example
+            # - or extends ports in docker-compose.override.yml
+            # To find out used port use `docker ps` and look for PORTS column to see mapped host port, including IP it can be for example http://0.0.0.0:32770/ which is roughly equivalent to http://127.0.0.1:32770/ for web browser
             - "${PHP_HOST_MAPPING_PORT:-0}:80"
 
-    mysql_sylius_payment_restriction:
+    nginx-sylius-payment-restriction:
+        container_name: nginx-sylius-payment-restriction
+        image: 'jaroslavtyc/praguebest-sylius-plugin-dev-nginx:1.24'
+        ports:
+            # Host port 0 is for "first available"
+            # How to change it:
+            # - set NGINX_HOST_MAPPING_PORT variable in .env file for example
+            # - or extends ports in docker-compose.override.yml
+            # To find out used port use `docker ps` and look for PORTS column to see mapped host port, including IP it can be for example http://0.0.0.0:32771/ which is roughly equivalent to http://127.0.0.1:32771/ for web browser
+            - "${NGINX_HOST_MAPPING_PORT:-0}:80"
+        volumes:
+            - .:/srv/sylius:rw,delegated
+
+    mysql-sylius-payment-restriction:
+        container_name: mysql-sylius-payment-restriction
         image: mysql:8.0
-        container_name: mysql_sylius_payment_restriction
         environment:
             - MYSQL_ROOT_PASSWORD=pass_root
             - MYSQL_DATABASE=sylius_payment_restriction_plugin_test
             - MYSQL_USER=sylius
             - MYSQL_PASSWORD=pass
         ports:
-            # set MYSQL_HOST_MAPPING_PORT variable in .env file for example
-            - "${MYSQL_HOST_MAPPING_PORT:-33306}:3306"
+            # Host port 0 is for "first available"
+            # How to change it:
+            # - set MYSQL_HOST_MAPPING_PORT variable in .env file for example
+            # - or extends ports in docker-compose.override.yml
+            # To find out used port use `docker ps` and look for PORTS column to see mapped host port, including IP it can be for example 0.0.0.0:32772 which is roughly equivalent to 127.0.0.1:32772 for internal network requests
+            - "${MYSQL_HOST_MAPPING_PORT:-0}:3306"
