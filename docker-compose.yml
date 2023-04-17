@@ -18,6 +18,10 @@ services:
             PHP_DATE_TIMEZONE: "${PHP_DATE_TIMEZONE:-UTC}"
         volumes:
             - .:/srv/sylius:rw,delegated
+        ports:
+            # set PHP_HOST_MAPPING_PORT variable in .env file for example, or extends ports in docker-compose.override.yml, or just let it be with 0 for "first available"
+            # use `docker ps` and look for PORTS column to see mapped host port, including IP it can be for example http://0.0.0.0:32770/ which is roughly equivalent to http://127.0.0.1:32770/ for web browser
+            - "${PHP_HOST_MAPPING_PORT:-0}:80"
 
     mysql_sylius_payment_restriction:
         image: mysql:8.0
