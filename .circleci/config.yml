@@ -9,21 +9,21 @@ workflows:
                     matrix:
                         parameters:
                             sylius_version: [ "1.12.*" ]
-                            symfony_version: [ "5.2.*", "6.*" ]
+                            symfony_version: [ "5.3.*", "6.*" ]
             -   build:
                     name: php-8.1-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     php_version: "8.1"
                     matrix:
                         parameters:
                             sylius_version: [ "1.12.*" ]
-                            symfony_version: [ "5.2.*", "6.*" ]
+                            symfony_version: [ "5.3.*", "6.*" ]
             -   build:
                     name: php-8.2-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     php_version: "8.2"
                     matrix:
                         parameters:
                             sylius_version: [ "1.12.*" ]
-                            symfony_version: [ "5.2.*", "6.*" ]
+                            symfony_version: [ "5.3.*", "6.*" ]
 
 jobs:
     build:

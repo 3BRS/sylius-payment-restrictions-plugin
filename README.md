@@ -104,7 +104,7 @@ tests/Application/bin/console doctrine:schema:create --env test
 
 
 ```bash
-composer check
+composer checks
 ```
 
 License
