@@ -4,28 +4,33 @@ workflows:
     workflow:
         jobs:
             -   build:
-                    name: php-8.0-sylius-<< matrix.sylius_version >>
+                    name: php-8.0-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     php_version: "8.0"
                     matrix:
                         parameters:
-                            sylius_version: [ "1.12" ]
+                            sylius_version: [ "1.12.*" ]
+                            symfony_version: [ "5.2.*", "6.*" ]
             -   build:
-                    name: php-8.1-sylius-<< matrix.sylius_version >>
+                    name: php-8.1-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     php_version: "8.1"
                     matrix:
                         parameters:
-                            sylius_version: [ "1.12" ]
+                            sylius_version: [ "1.12.*" ]
+                            symfony_version: [ "5.2.*", "6.*" ]
             -   build:
-                    name: php-8.2-sylius-<< matrix.sylius_version >>
+                    name: php-8.2-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     php_version: "8.2"
                     matrix:
                         parameters:
-                            sylius_version: [ "1.12" ]
+                            sylius_version: [ "1.12.*" ]
+                            symfony_version: [ "5.2.*", "6.*" ]
 
 jobs:
     build:
         parameters:
             sylius_version:
+                type: string
+            symfony_version:
                 type: string
             php_version:
                 type: string
@@ -44,16 +49,18 @@ jobs:
             # 'mariadb-connector-c' to avoid ERROR 1045 (28000): Plugin caching_sha2_password could not be loaded: Error loading shared library /usr/lib/mariadb/plugin/caching_sha2_password.so: No such file or directory
             -   run: apk add yarn mysql-client mariadb-connector-c
             -   run: composer self-update
-            -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update
+            -   run: composer require "sylius/sylius:<< parameters.sylius_version >>" --no-interaction --no-update
+                # \K is for "for output start here further" https://unix.stackexchange.com/questions/13466/can-grep-output-only-specified-groupings-that-match
+            -   run: grep -oP '"(\Ksymfony/[^"]+)' composer.json | xargs printf '%s:<< parameters.symfony_version >> '| xargs composer require --no-interaction --no-update
 
             -   restore_cache:
                     keys:
-                        - vendor-cache-prefer-dist-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
+                        - vendor-cache-prefer-dist-<< parameters.sylius_version >>-<< parameters.symfony_version >>-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   save_cache:
-                    key: vendor-cache-prefer-dist-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
+                    key: vendor-cache-prefer-dist-<< parameters.sylius_version >>-<< parameters.symfony_version >>-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
                     paths:
                         - ./vendor
                         - ./tests/Application/node_modules
@@ -72,12 +79,12 @@ jobs:
             -   run: rm -fr vendor composer.lock
             -   restore_cache:
                     keys:
-                        - vendor-cache-prefer-lowest-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
+                        - vendor-cache-prefer-lowest-<< parameters.sylius_version >>-<< parameters.symfony_version >>-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-lowest
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   save_cache:
-                    key: vendor-cache-prefer-lowest-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
+                    key: vendor-cache-prefer-lowest-<< parameters.sylius_version >>-<< parameters.symfony_version >>-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
                     paths:
                         - ./vendor
                         - ./tests/Application/node_modules
