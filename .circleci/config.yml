@@ -51,7 +51,7 @@ jobs:
             -   run: composer self-update
             -   run: composer require "sylius/sylius:<< parameters.sylius_version >>" --no-interaction --no-update
                 # \K is for "for output start here further" https://unix.stackexchange.com/questions/13466/can-grep-output-only-specified-groupings-that-match
-            -   run: grep -oP '"(\Ksymfony/[^"]+)' composer.json | xargs printf '%s:<< parameters.symfony_version >> '| xargs composer require --no-interaction --no-update
+            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | xargs printf '%s:<< parameters.symfony_version >> '| xargs echo composer require --no-interaction --no-update
 
             -   restore_cache:
                     keys:
