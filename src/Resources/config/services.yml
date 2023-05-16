@@ -8,6 +8,9 @@ services:
         arguments:
             $zoneMatcher: '@sylius.zone_matcher'
 
+    ThreeBRS\SyliusPaymentRestrictionPlugin\Model\ThreeBRSSyliusResolvePaymentMethodForOrder:
+        alias: ThreeBRS\SyliusPaymentRestrictionPlugin\PaymentResolver\Filter\PaymentMethodsFilter
+
     ThreeBRS\SyliusPaymentRestrictionPlugin\PaymentResolver\PaymentMethodsResolver:
         tags:
             - name: "sylius.payment_method_resolver"

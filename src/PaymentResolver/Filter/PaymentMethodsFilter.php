@@ -12,6 +12,11 @@ use Sylius\Component\Shipping\Model\Shipment;
 use Sylius\Component\Shipping\Model\ShippingMethodInterface;
 use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface;
 
+class_alias(
+    PaymentMethodsFilter::class,
+    'ThreeBRS\SyliusPaymentRestrictionPlugin\Model\ThreeBRSSyliusResolvePaymentMethodForOrder'
+);
+
 class PaymentMethodsFilter
 {
     public function __construct(private ZoneMatcherInterface $zoneMatcher)
