@@ -25,9 +25,6 @@ class PaymentMethodsFilter
 
     public function isEligible(PaymentMethodRestrictionInterface $paymentMethod, OrderInterface $order): bool
     {
-        $shippingAddress = $order->getShippingAddress();
-        assert($shippingAddress instanceof AddressInterface);
-
         if (!$this->isAllowedForShippingMethod($paymentMethod, $order)) {
             return false;
         }
@@ -35,6 +32,14 @@ class PaymentMethodsFilter
         if ($paymentMethod->getZone() === null) {
             return true;
         }
+
+        $shippingAddress = $order->getShippingAddress();
+
+        if ($shippingAddress === null) {
+            return false;
+        }
+
+        assert($shippingAddress instanceof AddressInterface);
 
         $zones = $this->zoneMatcher->matchAll($shippingAddress);
 
@@ -66,8 +71,12 @@ class PaymentMethodsFilter
         }
 
         $shippingMethod = $shipment->getMethod();
+
+        if ($shippingMethod === null) {
+            return false;
+        }
+
         assert($shippingMethod instanceof ShippingMethodInterface);
-        assert($paymentMethod instanceof PaymentMethodRestrictionInterface);
 
         foreach ($paymentMethod->getShippingMethods() as $method) {
             assert($method instanceof ShippingMethodInterface);
