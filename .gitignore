@@ -8,6 +8,7 @@
 
 /tests/Application/yarn.lock
 
+docker-compose.yml
 docker-compose.override.yaml
 docker-compose.override.dist.yaml
 /bin-docker/
