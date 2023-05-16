@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v3.0.0 (2023-05-16)
+
+### Breaking changes
+- Drop support for Sylius `1.8|1.9|1.10|1.11`, Symfony `^4.4|^5.2`, PHP `^7.3`
+- Change namespace from `ThreeBRS\SyliusPaymentRestrictionPlugin\Model` to `ThreeBRS\SyliusPaymentRestrictionPlugin\PaymentResolver\Filter`
+
+### News
+- Add support to Sylius `1.12`, Symfony `5.3|6.0`, PHP `8.0|8.1|8.2`
+
 ## v2.0.0 (2021-11-09)
 
 #### Details
