@@ -8,4 +8,6 @@ cd "$(dirname "$DIR")"
 
 set -x
 
+ls -al easy-coding-standard.yml
+
 vendor/bin/ecs --config=easy-coding-standard.yml check src tests "$@"
