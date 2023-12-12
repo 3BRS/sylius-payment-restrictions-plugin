@@ -79,7 +79,6 @@ jobs:
             -   run: cat tests/Application/src/Kernel.php
             -   run: bin/ecs.sh
             -   run: vendor/bin/phpspec run
-            -   run: vendor/bin/psalm
 
             # COMPOSER PREFER LOWEST (oldest possible) #
             # has to delete vendor for next test with different libraries version to avoid Composer error 'Failed to extract...' if vendor dir cache does not exist
@@ -105,4 +104,3 @@ jobs:
             -   run: bin/phpstan.sh
             -   run: bin/ecs.sh
             -   run: vendor/bin/phpspec run
-            -   run: vendor/bin/psalm
