@@ -48,6 +48,7 @@ jobs:
             # COMPOSER PREFER DIST #
             -   run: composer config --list --global
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
+            -   run: yarn cache dir
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   save_cache:
