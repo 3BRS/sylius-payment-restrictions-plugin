@@ -15,14 +15,18 @@ use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterf
 
 final class PaymentMethodContext implements Context
 {
-    public function __construct(private EntityManagerInterface $entityManager, private PaymentMethodRepositoryInterface $paymentMethodRepository, private ShippingMethodRepositoryInterface $shippingMethodRepository)
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private PaymentMethodRepositoryInterface $paymentMethodRepository,
+        private ShippingMethodRepositoryInterface $shippingMethodRepository,
+    )
     {
     }
 
     /**
      * @Given /^(this payment method) has (zone "([^"]+)")$/
      */
-    public function thisPaymentMethodHasZone(PaymentMethodInterface $paymentMethod, ZoneInterface $zone)
+    public function thisPaymentMethodHasZone(PaymentMethodInterface $paymentMethod, ZoneInterface $zone): void
     {
         assert($paymentMethod instanceof PaymentMethodRestrictionInterface);
         $paymentMethod->setZone($zone);
@@ -32,7 +36,10 @@ final class PaymentMethodContext implements Context
     /**
      * @Given /^(this payment method) is valid for (shipping method "([^"]+)")$/
      */
-    public function thispaymentMethodIsValidForShippingMethod(PaymentMethodInterface $paymentMethod, ShippingMethodInterface $shippingMethod)
+    public function thisPaymentMethodIsValidForShippingMethod(
+        PaymentMethodInterface $paymentMethod,
+        ShippingMethodInterface $shippingMethod,
+    ): void
     {
         assert($paymentMethod instanceof PaymentMethodRestrictionInterface);
         $paymentMethod->getShippingMethods()->add($shippingMethod);
@@ -42,11 +49,11 @@ final class PaymentMethodContext implements Context
     /**
      * @Given all payment methods are valid for all shipping methods
      */
-    public function allpaymentMethodsAreValidForAllShippingMethods()
+    public function allPaymentMethodsAreValidForAllShippingMethods(): void
     {
         /** @var PaymentMethodRestrictionInterface[] $paymentMethods */
         $paymentMethods = $this->paymentMethodRepository->findAll();
-        /** @var ShippingMethodInterface $shippingMethods */
+        /** @var ShippingMethodInterface[] $shippingMethods */
         $shippingMethods = $this->shippingMethodRepository->findAll();
 
         foreach ($paymentMethods as $paymentMethod) {
@@ -61,7 +68,10 @@ final class PaymentMethodContext implements Context
     /**
      * @Given /^("([^"]+)" shipping method) allows paying with ("([^"]+)" payment method)$/
      */
-    public function shippingMethodAllowsPayingWith(ShippingMethodInterface $shippingMethod, PaymentMethodInterface $paymentMethod)
+    public function shippingMethodAllowsPayingWith(
+        ShippingMethodInterface $shippingMethod,
+        PaymentMethodInterface $paymentMethod,
+    ): void
     {
         throw new \Exception();
     }

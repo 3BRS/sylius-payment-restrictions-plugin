@@ -34,6 +34,8 @@ class ThreeBRSSyliusResolvePaymentMethodForOrder
         foreach ($zones as $zone) {
             assert($zone instanceof ZoneInterface);
             $paymentMethodZone = $paymentMethod->getZone();
+
+            // @phpstan-ignore-next-line
             if ($paymentMethodZone !== null) {
                 $paymentMethodZoneCode = $paymentMethodZone->getCode();
                 if ($paymentMethodZoneCode === $zone->getCode()) {
@@ -45,7 +47,10 @@ class ThreeBRSSyliusResolvePaymentMethodForOrder
         return false;
     }
 
-    public function isAllowedForShippingMethod(PaymentMethodRestrictionInterface $paymentMethod, OrderInterface $order): bool
+    public function isAllowedForShippingMethod(
+        PaymentMethodRestrictionInterface $paymentMethod,
+        OrderInterface $order,
+    ): bool
     {
         $shipment = $order->getShipments()->last();
         if (!($shipment instanceof Shipment)) {
@@ -54,7 +59,6 @@ class ThreeBRSSyliusResolvePaymentMethodForOrder
 
         $shippingMethod = $shipment->getMethod();
         assert($shippingMethod instanceof ShippingMethodInterface);
-        assert($paymentMethod instanceof PaymentMethodRestrictionInterface);
 
         foreach ($paymentMethod->getShippingMethods() as $sm) {
             assert($sm instanceof ShippingMethodInterface);

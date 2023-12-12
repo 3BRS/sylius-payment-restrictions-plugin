@@ -19,7 +19,7 @@ if (is_array($env = @include dirname(__DIR__) . '/.env.local.php')) {
     return;
 } else {
     // load all the .env files
-    (new Dotenv(true))->loadEnv(dirname(__DIR__) . '/.env');
+    (new Dotenv())->loadEnv(dirname(__DIR__) . '/.env');
 }
 
 $_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = ($_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? null) ?: 'dev';

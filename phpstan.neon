@@ -3,8 +3,10 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
+    treatPhpDocTypesAsCertain: false
     paths:
         - src
+        - tests/Application/src
         - tests/Behat
 
     excludePaths:
@@ -12,8 +14,10 @@ parameters:
         - 'src/DependencyInjection/Configuration.php'
 
         # Test dependencies
-        - 'tests/Application/app/**.php'
-        - 'tests/Application/src/**.php'
+        - 'tests/Application/src/Kernel.php'
+        - 'tests/Application/config/bootstrap.php'
+        - 'tests/Application/node_modules'
+        - 'tests/Application/var'
 
     ignoreErrors:
         - '/Parameter #1 \$configuration of method Symfony\\Component\\DependencyInjection\\Extension\\Extension::processConfiguration\(\) expects Symfony\\Component\\Config\\Definition\\ConfigurationInterface, Symfony\\Component\\Config\\Definition\\ConfigurationInterface\|null given\./'

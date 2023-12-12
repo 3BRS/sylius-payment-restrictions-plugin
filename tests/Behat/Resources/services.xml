@@ -16,8 +16,6 @@
 				 class="Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Behat\Context\Ui\Admin\ManagingPaymentMethodContext">
 			<argument type="service"
 					  id="Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Behat\Page\Admin\PaymentMethod\UpdatePageInterface"/>
-			<argument type="service" id="sylius.behat.shared_storage"/>
-			<argument type="service" id="doctrine.orm.entity_manager"/>
 		</service>
 
 		<service id="sylius_payment_restriction.context.setup.checkout_payment_context"
