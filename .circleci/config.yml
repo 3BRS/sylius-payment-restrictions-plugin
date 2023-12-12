@@ -76,6 +76,7 @@ jobs:
             -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
             -   run: bin/behat
             -   run: bin/phpstan.sh
+            -   run: cat tests/Application/src/Kernel.php
             -   run: bin/ecs.sh
             -   run: vendor/bin/phpspec run
             -   run: vendor/bin/psalm
