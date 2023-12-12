@@ -38,26 +38,37 @@ jobs:
             # 'mariadb-connector-c' to avoid ERROR 1045 (28000): Plugin caching_sha2_password could not be loaded: Error loading shared library /usr/lib/mariadb/plugin/caching_sha2_password.so: No such file or directory
             -   run: apk add yarn mysql-client mariadb-connector-c
             -   run: composer self-update
+
+            # Sylius & Symfony in current matrix versions
+            -   restore_cache:
+                    keys:
+                        - composer-cache-sylius_<< parameters.sylius_version >>-symfony_<< parameters.symfony_version >>-php_<< parameters.php_version >>-{{ checksum "composer.json" }}
             -   run: composer require "sylius/sylius:<< parameters.sylius_version >>" --no-interaction --no-update
                 # \K is for "for output start here further" https://unix.stackexchange.com/questions/13466/can-grep-output-only-specified-groupings-that-match
             -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | xargs printf '%s:<< parameters.symfony_version >> '| xargs echo composer require --no-interaction --no-update
+            -   save_cache:
+                    key: composer-cache-sylius_<< parameters.sylius_version >>-symfony_<< parameters.symfony_version >>-php_<< parameters.php_version >>-{{ checksum "composer.json" }}
+                    paths:
+                        - $(composer --no-interaction config --global home)
+                        - ./vendor
+                        - ./composer.lock
 
+            # COMPOSER PREFER DIST #
             -   restore_cache:
                     keys:
                         - vendor-cache-prefer-dist-sylius_<< parameters.sylius_version >>-symfony_<< parameters.symfony_version >>-php_<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
-            # COMPOSER PREFER DIST #
-            -   run: composer config --list --global
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
-            -   run: yarn cache dir
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   save_cache:
-                    key: vendor-cache-prefer-dist-<< parameters.sylius_version >>-<< parameters.symfony_version >>-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
+                    key: vendor-cache-prefer-dist-sylius_<< parameters.sylius_version >>-symfony_<< parameters.symfony_version >>-php_<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
                     paths:
                         - $(composer --no-interaction config --global home)
-                        - $(yarn cache dir)
                         - ./vendor
+                        - ./composer.lock
+                        - $(yarn cache dir)
                         - ./tests/Application/node_modules
+                        - ./tests/Application/yarn.lock
             -   run:
                     name: Wait for database
                     command: timeout 60s bash -c -- 'while ! nc -z localhost 3306; do sleep 0.1; done' \
@@ -82,10 +93,14 @@ jobs:
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   save_cache:
-                    key: vendor-cache-prefer-lowest-<< parameters.sylius_version >>-<< parameters.symfony_version >>-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
+                    key: vendor-cache-prefer-lowest-sylius_<< parameters.sylius_version >>-symfony_<< parameters.symfony_version >>-php_<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
                     paths:
+                        - $(composer --no-interaction config --global home)
                         - ./vendor
+                        - ./composer.lock
+                        - $(yarn cache dir)
                         - ./tests/Application/node_modules
+                        - ./tests/Application/yarn.lock
             -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
             -   run: bin/behat
