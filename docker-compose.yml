@@ -6,6 +6,12 @@ services:
             DATABASE_URL: "mysql://root:mysql@mysql/sylius_%kernel.environment%?charset=utf8mb4"
 #            DATABASE_URL: "pgsql://root:postgres@postgres/sylius_%kernel.environment%?charset=utf8" # When using postgres
             PHP_DATE_TIMEZONE: "Europe/Prague"
+            XDEBUG_CONFIG: "client_host=172.17.0.1 client_port=9003 remote_log=/tmp/xdebug.log"
+            XDEBUG_TRIGGER: "yes" # to start XDebug for EVERY request (use `export XDEBUG_TRIGGER: "yes"` to enable it in CLI and `unset XDEBUG_TRIGGER` to disable for CLI again - in browser use same-named variable in GET, POST or COOKIE, or legacy named via some browser extension). For a single shot can be used inline environment variable like `XDEBUG_TRIGGER=yes ./bin/console
+            #            XDEBUG_MODE: "off"
+            XDEBUG_MODE: "debug"
+            #            XDEBUG_MODE: "profile"
+            PHP_IDE_CONFIG: "serverName=3brsSyliusPaymentRestrictionsPlugin"
         volumes:
             - ./:/app:delegated
             - ./:/var/www:delegated
