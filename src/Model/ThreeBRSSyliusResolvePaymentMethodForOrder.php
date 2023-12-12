@@ -50,8 +50,7 @@ class ThreeBRSSyliusResolvePaymentMethodForOrder
     public function isAllowedForShippingMethod(
         PaymentMethodRestrictionInterface $paymentMethod,
         OrderInterface $order,
-    ): bool
-    {
+    ): bool {
         $shipment = $order->getShipments()->last();
         if (!($shipment instanceof Shipment)) {
             return true;

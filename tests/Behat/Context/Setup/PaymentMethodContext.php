@@ -19,8 +19,7 @@ final class PaymentMethodContext implements Context
         private EntityManagerInterface $entityManager,
         private PaymentMethodRepositoryInterface $paymentMethodRepository,
         private ShippingMethodRepositoryInterface $shippingMethodRepository,
-    )
-    {
+    ) {
     }
 
     /**
@@ -39,8 +38,7 @@ final class PaymentMethodContext implements Context
     public function thisPaymentMethodIsValidForShippingMethod(
         PaymentMethodInterface $paymentMethod,
         ShippingMethodInterface $shippingMethod,
-    ): void
-    {
+    ): void {
         assert($paymentMethod instanceof PaymentMethodRestrictionInterface);
         $paymentMethod->getShippingMethods()->add($shippingMethod);
         $this->entityManager->flush();
@@ -71,8 +69,7 @@ final class PaymentMethodContext implements Context
     public function shippingMethodAllowsPayingWith(
         ShippingMethodInterface $shippingMethod,
         PaymentMethodInterface $paymentMethod,
-    ): void
-    {
+    ): void {
         throw new \Exception();
     }
 }

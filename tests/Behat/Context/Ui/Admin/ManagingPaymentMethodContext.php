@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
-use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Model\ShippingMethodInterface;
@@ -17,8 +15,7 @@ final class ManagingPaymentMethodContext implements Context
 {
     public function __construct(
         private UpdatePageInterface $updatePage,
-    )
-    {
+    ) {
     }
 
     /**
@@ -35,8 +32,7 @@ final class ManagingPaymentMethodContext implements Context
     public function thisPaymentMethodHasShippingMethod(
         PaymentMethodInterface $paymentMethod,
         ShippingMethodInterface $shippingMethod,
-    ): void
-    {
+    ): void {
         Assert::true($this->updatePage->isActiveForShippingMethod($shippingMethod->getId()));
     }
 

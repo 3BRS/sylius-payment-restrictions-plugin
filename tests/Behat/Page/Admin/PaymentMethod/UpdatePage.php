@@ -22,7 +22,7 @@ final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
 
     public function activateForShippingMethod(int $shipmentMethodId): void
     {
-        $Page                  = $this->getSession()->getPage();
+        $Page = $this->getSession()->getPage();
         $shippingMethodElement = $this->getShippingMethodElement($Page, $shipmentMethodId);
         $shippingMethodElement->setValue(true);
     }
@@ -40,7 +40,7 @@ final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
 
     public function isActiveForShippingMethod(int $shipmentMethodId): bool
     {
-        $Page                  = $this->getSession()->getPage();
+        $Page = $this->getSession()->getPage();
         $shippingMethodElement = $this->getShippingMethodElement($Page, $shipmentMethodId);
 
         return (bool) $shippingMethodElement->getValue();
