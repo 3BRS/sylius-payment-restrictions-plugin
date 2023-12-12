@@ -1,18 +1,25 @@
 version: 2.1
 
 workflows:
-    workflow:
+    php8.0:
         jobs:
             -   build:
                     name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     matrix:
                         parameters:
-                            php_version: [ "8.0", "8.1", "8.2" ]
+                            php_version: [ "8.0" ]
+                            sylius_version: [ "1.12" ]
+                            symfony_version: [ "5.4", "6.0" ]
+
+    php8.1+:
+        jobs:
+            -   build:
+                    name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
+                    matrix:
+                        parameters:
+                            php_version: [ "8.1", "8.2" ]
                             sylius_version: [ "1.12" ]
                             symfony_version: [ "5.4", "6.0", "6.1", "6.2", "6.3", "6.4" ]
-#                        exclude:
-#                            -   sylius_version: ""
-#                                symfony_version: ""
 
 jobs:
     build:
@@ -40,24 +47,14 @@ jobs:
             -   run: composer self-update
 
             # Sylius & Symfony in current matrix versions
-            -   restore_cache:
-                    keys:
-                        - composer-cache-sylius_<< parameters.sylius_version >>-symfony_<< parameters.symfony_version >>-php_<< parameters.php_version >>-{{ checksum "composer.json" }}
-            -   run: composer require "sylius/sylius:<< parameters.sylius_version >>" --no-interaction --no-update
-                # \K is for "for output start here further" https://unix.stackexchange.com/questions/13466/can-grep-output-only-specified-groupings-that-match
-            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | xargs printf '%s:<< parameters.symfony_version >> '| xargs echo composer require --no-interaction --no-update
-            -   save_cache:
-                    key: composer-cache-sylius_<< parameters.sylius_version >>-symfony_<< parameters.symfony_version >>-php_<< parameters.php_version >>-{{ checksum "composer.json" }}
-                    paths:
-                        - $(composer --no-interaction config --global home)
-                        - ./vendor
-                        - ./composer.lock
+            -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update --no-scripts
+            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* '| xargs composer require --no-interaction --no-update
 
             # COMPOSER PREFER DIST #
-            -   restore_cache:
-                    keys:
-                        - vendor-cache-prefer-dist-sylius_<< parameters.sylius_version >>-symfony_<< parameters.symfony_version >>-php_<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
-            -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
+            #            -   restore_cache:
+            #                    keys:
+            #                        - vendor-cache-prefer-dist-sylius_<< parameters.sylius_version >>-symfony_<< parameters.symfony_version >>-php_<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
+            -   run: composer update --no-interaction --prefer-dist
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   save_cache:
@@ -86,9 +83,9 @@ jobs:
             # COMPOSER PREFER LOWEST (oldest possible) #
             # has to delete vendor for next test with different libraries version to avoid Composer error 'Failed to extract...' if vendor dir cache does not exist
             -   run: rm -fr vendor composer.lock
-            -   restore_cache:
-                    keys:
-                        - vendor-cache-prefer-lowest-sylius_<< parameters.sylius_version >>-symfony_<< parameters.symfony_version >>-php_<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
+            #            -   restore_cache:
+            #                    keys:
+            #                        - vendor-cache-prefer-lowest-sylius_<< parameters.sylius_version >>-symfony_<< parameters.symfony_version >>-php_<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-lowest
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
