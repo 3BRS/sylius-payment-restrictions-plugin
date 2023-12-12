@@ -50,7 +50,12 @@
     "vimeo/psalm": "5.9.0"
   },
   "conflict": {
-    "symfony/framework-bundle": "6.2.8"
+    "doctrine/doctrine-bundle": "<2.3.2",
+    "jms/serializer-bundle": "<4.2.0",
+    "lexik/jwt-authentication-bundle": "<2.12",
+    "symfony/dom-crawler": "<6.0.0",
+    "symfony/framework-bundle": "6.2.8",
+    "willdurand/negotiation": "<3.0"
   },
   "prefer-stable": true,
   "config": {
