@@ -54,6 +54,8 @@ jobs:
             -   save_cache:
                     key: vendor-cache-prefer-dist-<< parameters.sylius_version >>-<< parameters.symfony_version >>-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
                     paths:
+                        - $(composer --no-interaction config --global home)
+                        - $(yarn cache dir)
                         - ./vendor
                         - ./tests/Application/node_modules
             -   run:
