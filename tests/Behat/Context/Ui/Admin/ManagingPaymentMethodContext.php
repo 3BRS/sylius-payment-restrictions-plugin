@@ -15,23 +15,8 @@ use Webmozart\Assert\Assert;
 
 final class ManagingPaymentMethodContext implements Context
 {
-    /** @var UpdatePageInterface */
-    private $updatePage;
-
-    /** @var SharedStorageInterface */
-    private $sharedStorage;
-
-    /** @var EntityManagerInterface */
-    private $entityManager;
-
-    public function __construct(
-        UpdatePageInterface $updatePage,
-        SharedStorageInterface $sharedStorage,
-        EntityManagerInterface $entityManager
-    ) {
-        $this->updatePage = $updatePage;
-        $this->sharedStorage = $sharedStorage;
-        $this->entityManager = $entityManager;
+    public function __construct(private UpdatePageInterface $updatePage, private SharedStorageInterface $sharedStorage, private EntityManagerInterface $entityManager)
+    {
     }
 
     /**

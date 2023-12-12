@@ -1,0 +1,5 @@
+threebrs:
+    admin:
+        paymentMethod:
+            form:
+                shippingMethods: Méthodes de paiement

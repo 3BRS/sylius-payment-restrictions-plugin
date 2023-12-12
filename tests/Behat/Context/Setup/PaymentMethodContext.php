@@ -15,23 +15,8 @@ use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterf
 
 final class PaymentMethodContext implements Context
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
-
-    /** @var PaymentMethodRepositoryInterface */
-    private $paymentMethodRepository;
-
-    /** @var ShippingMethodRepositoryInterface */
-    private $shippingMethodRepository;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        PaymentMethodRepositoryInterface $paymentMethodRepository,
-        ShippingMethodRepositoryInterface $shippingMethodRepository
-    ) {
-        $this->entityManager = $entityManager;
-        $this->paymentMethodRepository = $paymentMethodRepository;
-        $this->shippingMethodRepository = $shippingMethodRepository;
+    public function __construct(private EntityManagerInterface $entityManager, private PaymentMethodRepositoryInterface $paymentMethodRepository, private ShippingMethodRepositoryInterface $shippingMethodRepository)
+    {
     }
 
     /**

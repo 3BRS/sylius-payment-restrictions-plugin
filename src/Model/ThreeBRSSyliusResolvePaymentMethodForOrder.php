@@ -13,13 +13,8 @@ use Sylius\Component\Shipping\Model\ShippingMethodInterface;
 
 class ThreeBRSSyliusResolvePaymentMethodForOrder
 {
-    /** @var ZoneMatcherInterface */
-    private $zoneMatcher;
-
-    public function __construct(
-        ZoneMatcherInterface $zoneMatcher
-    ) {
-        $this->zoneMatcher = $zoneMatcher;
+    public function __construct(private ZoneMatcherInterface $zoneMatcher)
+    {
     }
 
     public function isEligible(PaymentMethodRestrictionInterface $paymentMethod, OrderInterface $order): bool

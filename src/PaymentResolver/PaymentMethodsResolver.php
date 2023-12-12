@@ -9,35 +9,29 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
 use Sylius\Component\Payment\Model\PaymentInterface as BasePaymentInterface;
+use Sylius\Component\Payment\Model\PaymentMethodInterface;
 use Sylius\Component\Payment\Resolver\PaymentMethodsResolverInterface;
+use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface;
 use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\ThreeBRSSyliusResolvePaymentMethodForOrder;
 use Webmozart\Assert\Assert;
 
 class PaymentMethodsResolver implements PaymentMethodsResolverInterface
 {
-    /** @var PaymentMethodRepositoryInterface */
-    private $paymentMethodRepository;
-
-    /** @var ThreeBRSSyliusResolvePaymentMethodForOrder */
-    private $paymentOrderResolver;
-
     public function __construct(
-        PaymentMethodRepositoryInterface $paymentMethodRepository,
-        ThreeBRSSyliusResolvePaymentMethodForOrder $paymentOrderResolver
+        private PaymentMethodRepositoryInterface $paymentMethodRepository,
+        private ThreeBRSSyliusResolvePaymentMethodForOrder $paymentOrderResolver
     ) {
-        $this->paymentMethodRepository = $paymentMethodRepository;
-        $this->paymentOrderResolver = $paymentOrderResolver;
     }
 
     /**
-     * @inheritdoc
+     * @return array<PaymentMethodInterface|PaymentMethodRestrictionInterface>
      */
-    public function getSupportedMethods(BasePaymentInterface $payment): array
+    public function getSupportedMethods(BasePaymentInterface $subject): array
     {
-        \assert($payment instanceof PaymentInterface);
-        Assert::true($this->supports($payment), 'This payment method is not support by resolver');
+        \assert($subject instanceof PaymentInterface);
+        Assert::true($this->supports($subject), 'This payment method is not support by resolver');
 
-        $order = $payment->getOrder();
+        $order = $subject->getOrder();
         \assert($order instanceof OrderInterface);
 
         $channel = $order->getChannel();
@@ -46,6 +40,7 @@ class PaymentMethodsResolver implements PaymentMethodsResolverInterface
         $enabledForChannel = $this->paymentMethodRepository->findEnabledForChannel($channel);
         $result = [];
         foreach ($enabledForChannel as $paymentMethod) {
+            \assert($paymentMethod instanceof PaymentMethodRestrictionInterface);
             if ($this->paymentOrderResolver->isEligible($paymentMethod, $order)) {
                 $result[] = $paymentMethod;
             }
@@ -54,19 +49,15 @@ class PaymentMethodsResolver implements PaymentMethodsResolverInterface
         return $result;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function supports(BasePaymentInterface $payment): bool
+    public function supports(BasePaymentInterface $subject): bool
     {
-        if (
-            !$payment instanceof PaymentInterface ||
-            $payment->getOrder() === null
+        if (!$subject instanceof PaymentInterface ||
+            $subject->getOrder() === null
         ) {
             return false;
         }
 
-        $order = $payment->getOrder();
+        $order = $subject->getOrder();
 
         return
             $order instanceof OrderInterface &&
