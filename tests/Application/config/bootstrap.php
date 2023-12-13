@@ -7,8 +7,8 @@ use Symfony\Component\HttpKernel\Kernel;
 
 require dirname(__DIR__) . '../../../vendor/autoload.php';
 
-if (($_SERVER['APP_ENV'] ?? '') === 'test' && Kernel::MAJOR_VERSION < 6 && PHP_MAJOR_VERSION >= 8) {
-    // to avoid Behat --- Failed scenarios: 8192: Function libxml_disable_entity_loader() is deprecated in vendor/symfony/dom-crawler/Crawler.php line 1183
+if (($_SERVER['APP_ENV'] ?? '') === 'test' && !empty($_ENV['APP_SUPPRESS_DEPRECATED_ERRORS'])) {
+    // to avoid Behat errors like --- Failed scenarios: 8192: Function libxml_disable_entity_loader() is deprecated in vendor/symfony/dom-crawler/Crawler.php line 1183
     error_reporting(E_ALL ^ E_DEPRECATED);
 }
 
