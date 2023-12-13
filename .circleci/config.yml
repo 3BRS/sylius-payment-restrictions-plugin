@@ -39,9 +39,6 @@ jobs:
                     MYSQL_ROOT_PASSWORD: pass_root
                     MYSQL_USER: sylius
                     MYSQL_PASSWORD: pass
-        environment:
-            COMPOSER_HOME: $CIRCLE_WORKING_DIRECTORY/.composer-home
-            YARN_CACHE_FOLDER: CIRCLE_WORKING_DIRECTORY/.yarn-cache
 
         steps:
             - checkout
@@ -49,10 +46,6 @@ jobs:
             # 'mariadb-connector-c' to avoid ERROR 1045 (28000): Plugin caching_sha2_password could not be loaded: Error loading shared library /usr/lib/mariadb/plugin/caching_sha2_password.so: No such file or directory
             -   run: apk add yarn mysql-client mariadb-connector-c
             -   run: composer self-update
-            -   restore_cache:
-                    keys:
-                        - composer-home-{{ checksum "composer.json" }}
-                        - test-node-cache-{{ checksum "tests/Application/package.json" }}
 
             # Sylius & Symfony in current matrix versions
             -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update --no-scripts
@@ -94,12 +87,3 @@ jobs:
             -   run: APP_ENV=test bin/phpstan.sh
             -   run: APP_ENV=test bin/ecs.sh
             -   run: APP_ENV=test vendor/bin/phpspec run
-
-            -   save_cache:
-                    key: composer-home-{{ checksum "composer.json" }}
-                    paths:
-                        - ./.composer-home
-            -   save_cache:
-                    key: test-node-cache-{{ checksum "tests/Application/package.json" }}
-                    paths:
-                        - ./.yarn-home
