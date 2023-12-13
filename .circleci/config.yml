@@ -39,6 +39,10 @@ jobs:
                     MYSQL_ROOT_PASSWORD: pass_root
                     MYSQL_USER: sylius
                     MYSQL_PASSWORD: pass
+        environment:
+            COMPOSER_HOME: $CIRCLE_WORKING_DIRECTORY/.composer-home
+            YARN_CACHE_FOLDER: CIRCLE_WORKING_DIRECTORY/.yarn-cache
+
         steps:
             - checkout
             -   run: apk update
@@ -47,7 +51,8 @@ jobs:
             -   run: composer self-update
             -   restore_cache:
                     keys:
-                        - vendor-caches
+                        - composer-home-{{ checksum "composer.json" }}
+                        - test-node-cache-{{ checksum "tests/Application/package.json" }}
 
             # Sylius & Symfony in current matrix versions
             -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update --no-scripts
@@ -91,7 +96,10 @@ jobs:
             -   run: APP_ENV=test vendor/bin/phpspec run
 
             -   save_cache:
-                    key: vendor-caches
+                    key: composer-home-{{ checksum "composer.json" }}
                     paths:
-                        - $(composer --no-interaction config --global home)
-                        - $(yarn cache dir)
+                        - ./.composer-home
+            -   save_cache:
+                    key: test-node-cache-{{ checksum "tests/Application/package.json" }}
+                    paths:
+                        - ./.yarn-home
