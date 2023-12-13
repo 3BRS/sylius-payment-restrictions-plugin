@@ -124,7 +124,6 @@ bin/behat
 bin/phpstan.sh
 bin/ecs.sh
 vendor/bin/phpspec run
-vendor/bin/psalm
 ```
 
 #### Behat in detail
