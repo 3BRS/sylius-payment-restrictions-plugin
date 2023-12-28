@@ -40,8 +40,7 @@
    ];
    ```
 
-1. Your Entity `PaymentMethod` has to
-   implement `\ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface`. You can use
+1. Your Entity `PaymentMethod` has to implement `\ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface`. You can use
    Trait `ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionTrait`
 
    ```php
@@ -74,8 +73,7 @@
    }
    ```
 
-1. Add to `@SyliusAdmin/PaymentMethod/_form.html.twig` (you will have to probably copy-paste original as there is no
-   way to extend that section)
+1. Add to `@SyliusAdmin/PaymentMethod/_form.html.twig` (you will have to probably copy-paste original as there is no way to extend that section)
 
     ```twig
     {# ... #}
@@ -129,8 +127,9 @@ vendor/bin/phpspec run
 ### Opening Sylius with your plugin
 
 1. Install symfony CLI command: https://symfony.com/download
-    - hint: for Docker (with Ubuntu) use _Debian/Ubuntu — APT based Linux_ installation steps as `root` user and without `sudo` command
-      - you may need to install `curl` first ```apt-get update && apt-get install curl --yes```
+    - hint: for Docker (with Ubuntu) use _Debian/Ubuntu — APT based
+      Linux_ installation steps as `root` user and without `sudo` command
+        - you may need to install `curl` first ```apt-get update && apt-get install curl --yes```
 2. Run app
 
 ```bash
@@ -139,7 +138,6 @@ vendor/bin/phpspec run
 ```
 
 - change `APP_ENV` to `dev` if you need it
-
 
 License
 -------
