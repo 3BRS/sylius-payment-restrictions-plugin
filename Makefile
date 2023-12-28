@@ -1,36 +1,34 @@
-phpunit:
-	vendor/bin/phpunit
-
 phpspec:
-	vendor/bin/phpspec run --ansi --no-interaction -f dot
+	APP_ENV=test vendor/bin/phpspec run --ansi --no-interaction -f dot
 
 phpstan:
-	vendor/bin/phpstan analyse
+	APP_ENV=test bin/phpstan.sh
 
-psalm:
-	vendor/bin/psalm
+ecs:
+	APP_ENV=test bin/ecs.sh
 
 behat-js:
-	APP_ENV=test vendor/bin/behat --colors --strict --no-interaction -vvv -f progress
+	APP_ENV=test APP_SUPPRESS_DEPRECATED_ERRORS=1 bin/behat --colors --strict --no-interaction -vvv -f progress
 
 install:
 	composer install --no-interaction --no-scripts
 
 backend:
-	tests/Application/bin/console sylius:install --no-interaction
-	tests/Application/bin/console sylius:fixtures:load default --no-interaction
+	APP_ENV=test tests/Application/bin/console sylius:install --no-interaction
+	APP_ENV=test tests/Application/bin/console doctrine:schema:update --force --complete --no-interaction
+	APP_ENV=test tests/Application/bin/console sylius:fixtures:load default --no-interaction
 
 frontend:
 	(cd tests/Application && yarn install --pure-lockfile)
 	(cd tests/Application && GULP_ENV=prod yarn build)
 
 behat:
-	APP_ENV=test vendor/bin/behat --colors --strict --no-interaction -vvv -f progress
+	APP_ENV=test bin/behat --colors --strict --no-interaction -vvv -f progress
 
 init: install backend frontend
 
-ci: init phpstan psalm phpunit phpspec behat
+ci: init phpstan ecs phpspec behat
 
-integration: init phpunit behat
+integration: init behat
 
-static: install phpspec phpstan psalm
+static: install phpspec phpstan ecs
