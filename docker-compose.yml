@@ -18,6 +18,7 @@ services:
         volumes:
             - ./:/app:delegated
             - ./:/var/www:delegated
+            - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf:delegated
 #            - ./.docker/php/php.ini:/etc/php8/php.ini:delegated
 #            - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf:delegated
         ports:
