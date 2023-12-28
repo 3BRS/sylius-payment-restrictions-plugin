@@ -58,6 +58,7 @@
     "knplabs/knp-menu": "<3.3.0",
     "lexik/jwt-authentication-bundle": "<2.12",
     "polishsymfonycommunity/symfony-mocker-container": "<1.0.6",
+    "sylius/resource-bundle": "<1.10.0",
     "symfony/css-selector": "<4.4.24",
     "symfony/framework-bundle": ">=6.1.0 <6.1.4|6.2.8",
     "symfony/web-link": "<5.3.0",
