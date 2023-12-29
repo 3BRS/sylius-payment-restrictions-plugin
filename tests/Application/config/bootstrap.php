@@ -18,7 +18,7 @@ if (($_SERVER['APP_ENV'] ?? '') === 'test'
 
 // Load cached env vars if the .env.local.php file exists
 // Run "composer dump-env prod" to create it (requires symfony/flex >=1.2)
-if (is_array($env = @include dirname(__DIR__) . '/.env.local.php')) {
+if (is_readable(dirname(__DIR__) . '/.env.local.php') && is_array($env = @include dirname(__DIR__) . '/.env.local.php')) {
     $_SERVER += $env;
     $_ENV    += $env;
 } elseif (!class_exists(Dotenv::class)) {
