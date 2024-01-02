@@ -25,10 +25,13 @@ frontend:
 behat:
 	APP_ENV=test bin/behat --colors --strict --no-interaction -vvv -f progress
 
+lint:
+	APP_ENV=test bin/symfony-lint.sh
+
 init: install backend frontend
 
-ci: init phpstan ecs phpspec behat
+ci: init phpstan ecs phpspec behat lint
 
 integration: init behat
 
-static: install phpspec phpstan ecs
+static: install phpspec phpstan ecs lint
