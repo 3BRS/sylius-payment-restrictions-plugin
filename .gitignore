@@ -1,4 +1,4 @@
-
+/.env
 /vendor/
 /node_modules/
 /composer.lock
@@ -9,10 +9,10 @@
 
 /tests/Application/yarn.lock
 
-docker-compose.override.y*ml
+/docker-compose.override.y*ml
 /bin-docker/
 /deploy/
 /docker/
 
-yarn-error.log
+/yarn-error.log
 /supervisord.log
