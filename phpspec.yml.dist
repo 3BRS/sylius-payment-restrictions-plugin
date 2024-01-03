@@ -1,4 +1,0 @@
-suites:
-    main:
-        namespace: ThreeBRS\SyliusPaymentRestrictionPlugin
-        psr4_prefix: ThreeBRS\SyliusPaymentRestrictionPlugin

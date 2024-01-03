@@ -93,7 +93,6 @@ jobs:
                     command: APP_ENV=test bin/behat
             -   run: APP_ENV=test bin/phpstan.sh
             -   run: APP_ENV=test bin/ecs.sh --clear-cache
-            -   run: APP_ENV=test vendor/bin/phpspec run
             -   run: APP_ENV=test bin/symfony-lint.sh
 
             # COMPOSER PREFER DIST #
@@ -107,5 +106,4 @@ jobs:
             -   run: APP_ENV=test bin/behat
             -   run: APP_ENV=test bin/phpstan.sh
             -   run: APP_ENV=test bin/ecs.sh --clear-cache
-            -   run: APP_ENV=test vendor/bin/phpspec run
             -   run: APP_ENV=test bin/symfony-lint.sh

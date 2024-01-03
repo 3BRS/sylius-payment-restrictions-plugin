@@ -19,7 +19,7 @@ class PaymentMethodsResolver implements PaymentMethodsResolverInterface
 {
     public function __construct(
         private PaymentMethodRepositoryInterface $paymentMethodRepository,
-        private ThreeBRSSyliusResolvePaymentMethodForOrder $paymentOrderResolver
+        private ThreeBRSSyliusResolvePaymentMethodForOrder $paymentOrderResolver,
     ) {
     }
 
