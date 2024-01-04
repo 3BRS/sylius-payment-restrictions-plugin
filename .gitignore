@@ -1,18 +1,18 @@
-
+/.env
 /vendor/
 /node_modules/
 /composer.lock
+/symfony.lock
 
 /etc/build/*
 !/etc/build/.gitkeep
 
 /tests/Application/yarn.lock
 
-docker-compose.override.yaml
-docker-compose.override.dist.yaml
-docker-compose.yaml
+/docker-compose.override.y*ml
 /bin-docker/
 /deploy/
 /docker/
 
-yarn-error.log
+/yarn-error.log
+/supervisord.log

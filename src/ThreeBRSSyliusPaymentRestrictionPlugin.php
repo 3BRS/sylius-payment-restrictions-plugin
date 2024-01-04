@@ -7,7 +7,7 @@ namespace ThreeBRS\SyliusPaymentRestrictionPlugin;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class ThreeBRSSyliusPaymentRestrictionPlugin extends Bundle
+final class ThreeBRSSyliusPaymentRestrictionPlugin extends Bundle
 {
     use SyliusPluginTrait;
 }

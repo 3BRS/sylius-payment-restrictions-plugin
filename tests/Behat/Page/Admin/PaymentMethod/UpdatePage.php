@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Behat\Page\Admin\PaymentMethod;
 
+use Behat\Mink\Element\DocumentElement;
+use Behat\Mink\Element\NodeElement;
 use Sylius\Behat\Page\Admin\Channel\UpdatePage as BaseUpdatePage;
 
 final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
@@ -13,28 +15,44 @@ final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
         $this->getElement('zone')->setValue($zoneCode);
     }
 
-    public function isSingleResourceOnPage(string $elementName)
+    public function getSingleResourceOnPage(string $elementName): array|bool|string
     {
         return $this->getElement($elementName)->getValue();
     }
 
-    public function activateForShippinMethod(int $id): void
+    public function activateForShippingMethod(int $shipmentMethodId): void
     {
         $Page = $this->getSession()->getPage();
-        $Page->find('css', '#sylius_payment_method_shippingMethods_' . $id)->setValue(true);
+        $shippingMethodElement = $this->getShippingMethodElement($Page, $shipmentMethodId);
+        $shippingMethodElement->setValue(true);
     }
 
-    public function isActivateForShippinMethod(int $id): bool
+    private function getShippingMethodElement(DocumentElement $Page, int $shipmentMethodId): NodeElement
+    {
+        $shippingMethodElement = $Page->find(
+            'css',
+            '#sylius_payment_method_shippingMethods_' . $shipmentMethodId,
+        );
+        assert($shippingMethodElement instanceof NodeElement);
+
+        return $shippingMethodElement;
+    }
+
+    public function isActiveForShippingMethod(int $shipmentMethodId): bool
     {
         $Page = $this->getSession()->getPage();
+        $shippingMethodElement = $this->getShippingMethodElement($Page, $shipmentMethodId);
 
-        return (bool) $Page->find('css', '#sylius_payment_method_shippingMethods_' . $id)->getValue();
+        return (bool) $shippingMethodElement->getValue();
     }
 
     protected function getDefinedElements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'zone' => '#sylius_payment_method_zone',
-        ]);
+        return array_merge(
+            parent::getDefinedElements(),
+            [
+                'zone' => '#sylius_payment_method_zone',
+            ],
+        );
     }
 }

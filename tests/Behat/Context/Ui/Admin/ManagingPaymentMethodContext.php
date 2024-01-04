@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
-use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Model\ShippingMethodInterface;
@@ -15,54 +13,42 @@ use Webmozart\Assert\Assert;
 
 final class ManagingPaymentMethodContext implements Context
 {
-    /** @var UpdatePageInterface */
-    private $updatePage;
-
-    /** @var SharedStorageInterface */
-    private $sharedStorage;
-
-    /** @var EntityManagerInterface */
-    private $entityManager;
-
     public function __construct(
-        UpdatePageInterface $updatePage,
-        SharedStorageInterface $sharedStorage,
-        EntityManagerInterface $entityManager
+        private UpdatePageInterface $updatePage,
     ) {
-        $this->updatePage = $updatePage;
-        $this->sharedStorage = $sharedStorage;
-        $this->entityManager = $entityManager;
     }
 
     /**
      * @When /^I select (shipping method "([^"]+)")$/
      */
-    public function iSelectShippingMethod(ShippingMethodInterface $shippingMethod)
+    public function iSelectShippingMethod(ShippingMethodInterface $shippingMethod): void
     {
-        $this->updatePage->activateForShippinMethod($shippingMethod->getId());
+        $this->updatePage->activateForShippingMethod($shippingMethod->getId());
     }
 
     /**
      * @When /^(this payment method) is enabled for (shipping method "([^"]+)")$/
      */
-    public function thisPaymentMethodHasShippingMethod(PaymentMethodInterface $paymentMethod, ShippingMethodInterface $shippingMethod)
-    {
-        Assert::true($this->updatePage->isActivateForShippinMethod($shippingMethod->getId()));
+    public function thisPaymentMethodHasShippingMethod(
+        PaymentMethodInterface $paymentMethod,
+        ShippingMethodInterface $shippingMethod,
+    ): void {
+        Assert::true($this->updatePage->isActiveForShippingMethod($shippingMethod->getId()));
     }
 
     /**
      * @When /^I change (this payment method) zone to (zone "([^"]+)")$/
      */
-    public function thisPaymentMethodHasZone(PaymentMethodInterface $paymentMethod, ZoneInterface $zone)
+    public function thisPaymentMethodHasZone(PaymentMethodInterface $paymentMethod, ZoneInterface $zone): void
     {
-        $this->updatePage->changeZone($zone->getCode());
+        $this->updatePage->changeZone((string) $zone->getCode());
     }
 
     /**
      * @When /^the allowed zone for (this payment method) should be (zone "([^"]+)")$/
      */
-    public function thisPaymentMethodZoneShouldBe(PaymentMethodInterface $paymentMethod, ZoneInterface $zone)
+    public function thisPaymentMethodZoneShouldBe(PaymentMethodInterface $paymentMethod, ZoneInterface $zone): void
     {
-        Assert::eq($this->updatePage->isSingleResourceOnPage('zone'), $zone->getCode());
+        Assert::eq($this->updatePage->getSingleResourceOnPage('zone'), $zone->getCode());
     }
 }
