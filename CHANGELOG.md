@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v2.1.0 (2023-01-04)
+
+#### Details
+
+- Add support for Sylius 1.11|1.12, Symfony ^5.4|^6.0, PHP ^8.0
+- Drop support for Sylius <= 1.10 and consequentially for Symfony <= 5.3, <= PHP 7.4
+
 ## v2.0.0 (2021-11-09)
 
 #### Details
@@ -7,7 +14,7 @@
 - Support for Sylius 1.8|1.9|1.10, Symfony ^4.4|^5.2, PHP ^7.3|^8.0
 - Change namespace from `MangoSylius\PaymentRestrictionPlugin` to `ThreeBRS\SyliusPaymentRestrictionPlugin`
 - Change table name from `mangoweb_payment_method_shipping_method` to `threebrs_payment_method_shipping_method`
-- *BC break: Version 3.0.0 is NOT compatible with previous versions due to namespace change*
+- ⚠️ *BC break: Version 2.0.0 is NOT compatible with previous versions due to **namespace change***
 
 ## v1.0.0 (2020-06-17)
 
