@@ -35,7 +35,6 @@ class ThreeBRSSyliusResolvePaymentMethodForOrder
             assert($zone instanceof ZoneInterface);
             $paymentMethodZone = $paymentMethod->getZone();
 
-            // @phpstan-ignore-next-line
             if ($paymentMethodZone !== null) {
                 $paymentMethodZoneCode = $paymentMethodZone->getCode();
                 if ($paymentMethodZoneCode === $zone->getCode()) {

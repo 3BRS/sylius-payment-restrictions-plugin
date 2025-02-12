@@ -1,18 +1,6 @@
 version: 2.1
 
 workflows:
-    sylius1.11-php8.0:
-        jobs:
-            -   build:
-                    name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
-                    matrix:
-                        parameters:
-                            php_version:
-                                - "8.0"
-                            sylius_version:
-                                - "1.11"
-                            symfony_version:
-                                - "5.4"
     sylius1.12-php8.0:
         jobs:
             -   build:
@@ -21,16 +9,7 @@ workflows:
                         parameters:
                             php_version: [ "8.0" ]
                             sylius_version: [ "1.12" ]
-                            symfony_version: [ "5.4", "6.0" ]
-    sylius1.11-php8.1+:
-        jobs:
-            -   build:
-                    name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
-                    matrix:
-                        parameters:
-                            sylius_version: [ "1.11" ]
-                            symfony_version: [ "5.4" ]
-                            php_version: [ "8.1", "8.2" ]
+                            symfony_version: [ "6.0" ]
     sylius1.12-php8.1+:
         jobs:
             -   build:
@@ -38,8 +17,18 @@ workflows:
                     matrix:
                         parameters:
                             sylius_version: [ "1.12" ]
-                            php_version: [ "8.1", "8.2" ]
-                            symfony_version: [ "5.4", "6.0", "6.1", "6.2", "6.3", "6.4" ]
+                            php_version: [ "8.1", "8.2", "8.3" ]
+                            symfony_version: [ "6.0", "6.1", "6.2", "6.3", "6.4" ]
+
+    sylius1.13-php8.1+:
+        jobs:
+            -   build:
+                    name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
+                    matrix:
+                        parameters:
+                            sylius_version: [ "1.13" ]
+                            php_version: [ "8.1", "8.2", "8.3" ]
+                            symfony_version: [ "6.4" ]
 
 jobs:
     build:
@@ -51,9 +40,9 @@ jobs:
             php_version:
                 type: string
         docker:
-            -   image: webdevops/php-nginx:<< parameters.php_version >>-alpine
+            -   image: webdevops/php-nginx:<< parameters.php_version >>
                 environment:
-                    - DATABASE_URL=mysql://root:pass_root@127.0.0.1:3306/3brs_sylius_payment_restriction_plugin_%kernel.environment%?serverVersion=8.0
+                    - DATABASE_URL=mysql://root:pass_root@127.0.0.1:3306/3brs_sylius_payment_fee_plugin_%kernel.environment%?serverVersion=8.0
             -   image: cimg/mysql:8.0
                 environment:
                     MYSQL_ROOT_PASSWORD: pass_root
@@ -62,9 +51,13 @@ jobs:
 
         steps:
             - checkout
-            -   run: apk update
-            # 'mariadb-connector-c' to avoid ERROR 1045 (28000): Plugin caching_sha2_password could not be loaded: Error loading shared library /usr/lib/mariadb/plugin/caching_sha2_password.so: No such file or directory
-            -   run: apk add yarn mysql-client mariadb-connector-c
+            # to avoid installing different package "Note, selecting 'cmdtest' instead of 'yarn'"
+            -   run: curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+            -   run: echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+            -   run: curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+            -   run: apt-get update
+                # netcat to get 'nc' command for waiting for database
+            -   run: apt-get install -y nodejs yarn mariadb-client netcat-openbsd
             -   run: composer self-update
 
             # Sylius & Symfony in current matrix versions
@@ -73,12 +66,12 @@ jobs:
 
             -   run:
                     name: Wait for database
-                    command: timeout 60s bash -c -- 'while ! nc -z localhost 3306; do sleep 0.1; done' \
-                        && timeout 30s bash -c -- 'mysql --user=sylius --password=pass --host=localhost --port=3306 -e "exit"'
+                    command: timeout 60s bash -c -- 'while ! nc -z 127.0.0.1 3306; do sleep 0.1; done' \
+                        && timeout 30s bash -c -- 'mysql --user=sylius --password=pass --host=127.0.0.1 --port=3306 -e "exit"'
 
             # COMPOSER PREFER LOWEST (oldest possible) #
             # has to delete vendor for next test with different libraries version to avoid Composer error 'Failed to extract...' if vendor dir cache does not exist
-            -   run: rm -fr vendor composer.lock
+            -   run: rm -fr composer.lock
             -   run: composer update --no-interaction --prefer-lowest --no-plugins
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
@@ -87,13 +80,16 @@ jobs:
             -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
             -   run:
-                    name: Behat
-                    environment:
-                        APP_SUPPRESS_DEPRECATED_ERRORS: 1
-                    command: APP_ENV=test bin/behat
-            -   run: APP_ENV=test bin/phpstan.sh
+                    name: PHPStan
+                    command: |
+                        if [ "<< parameters.sylius_version >>" != "1.13" ]; then
+                            APP_ENV=test bin/phpstan.sh --configuration phpstan-before-sylius.1.13.dist.neon
+                        else
+                            APP_ENV=test bin/phpstan.sh
+                        fi
             -   run: APP_ENV=test bin/ecs.sh --clear-cache
             -   run: APP_ENV=test bin/symfony-lint.sh
+            -   run: APP_ENV=test bin/behat.sh
 
             # COMPOSER PREFER DIST #
             -   run: composer update --no-interaction --prefer-dist --no-plugins
@@ -103,7 +99,14 @@ jobs:
             -   run: (cd tests/Application && bin/console doctrine:schema:update --force --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
-            -   run: APP_ENV=test bin/behat
-            -   run: APP_ENV=test bin/phpstan.sh
+            -   run:
+                    name: PHPStan
+                    command: |
+                        if [ "<< parameters.sylius_version >>" != "1.13" ]; then
+                            APP_ENV=test bin/phpstan.sh --configuration phpstan-before-sylius.1.13.dist.neon
+                        else
+                            APP_ENV=test bin/phpstan.sh
+                        fi
             -   run: APP_ENV=test bin/ecs.sh --clear-cache
             -   run: APP_ENV=test bin/symfony-lint.sh
+            -   run: APP_ENV=test bin/behat.sh
