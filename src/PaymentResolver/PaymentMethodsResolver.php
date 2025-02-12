@@ -7,9 +7,9 @@ namespace ThreeBRS\SyliusPaymentRestrictionPlugin\PaymentResolver;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
 use Sylius\Component\Payment\Model\PaymentInterface as BasePaymentInterface;
-use Sylius\Component\Payment\Model\PaymentMethodInterface;
 use Sylius\Component\Payment\Resolver\PaymentMethodsResolverInterface;
 use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface;
 use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\ThreeBRSSyliusResolvePaymentMethodForOrder;
@@ -17,6 +17,9 @@ use Webmozart\Assert\Assert;
 
 class PaymentMethodsResolver implements PaymentMethodsResolverInterface
 {
+    /**
+     * @param PaymentMethodRepositoryInterface<PaymentMethodInterface> $paymentMethodRepository
+     */
     public function __construct(
         private PaymentMethodRepositoryInterface $paymentMethodRepository,
         private ThreeBRSSyliusResolvePaymentMethodForOrder $paymentOrderResolver,
