@@ -29,6 +29,7 @@ frontend:
 
 lint:
 	APP_ENV=test bin/symfony-lint.sh
+	APP_ENV=test bin/doctrine-lint.sh
 
 behat:
 	APP_ENV=test bin/behat.sh
