@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-	Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
+    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
 	Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
 	Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
 	Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
@@ -57,4 +57,7 @@ return [
 	SyliusLabs\Polyfill\Symfony\Security\Bundle\SyliusLabsPolyfillSymfonySecurityBundle::class => ['all' => true],
 	Sylius\Calendar\SyliusCalendarBundle::class => ['all' => true],
     ThreeBRS\SyliusPaymentRestrictionPlugin\ThreeBRSSyliusPaymentRestrictionPlugin::class => ['all' => true],
+	League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
+    Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
+    Sylius\Abstraction\StateMachine\SyliusStateMachineAbstractionBundle::class => ['all' => true],
 ];
