@@ -12,7 +12,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "sylius/sylius": "1.12.*|1.13.*"
+        "sylius/sylius": "1.14.*"
     },
     "require-dev": {
         "behat/behat": "^3.9.0",
@@ -62,7 +62,6 @@
         "lexik/jwt-authentication-bundle": "<2.12",
         "polishsymfonycommunity/symfony-mocker-container": "<1.0.6",
         "sylius/grid-bundle": "<1.11.0",
-        "sylius/resource-bundle": "<1.10.0",
         "symfony/css-selector": "<4.4.24",
         "symfony/framework-bundle": ">=5.4.0 <=5.4.20|>=6.0.0 <=6.0.16|>=6.1.0 <=6.1.8|>=6.2.0 <=6.2.2|6.2.8",
         "symfony/mime": "<5.4.0",
