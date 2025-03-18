@@ -1,32 +1,14 @@
 version: 2.1
 
 workflows:
-    sylius1.12-php8.0:
-        jobs:
-            -   build:
-                    name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
-                    matrix:
-                        parameters:
-                            php_version: [ "8.0" ]
-                            sylius_version: [ "1.12" ]
-                            symfony_version: [ "6.0" ]
-    sylius1.12-php8.1+:
-        jobs:
-            -   build:
-                    name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
-                    matrix:
-                        parameters:
-                            sylius_version: [ "1.12" ]
-                            php_version: [ "8.1", "8.2", "8.3" ]
-                            symfony_version: [ "6.0", "6.1", "6.2", "6.3", "6.4" ]
 
-    sylius1.13-php8.1+:
+    sylius1.14-php8.1+:
         jobs:
             -   build:
                     name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     matrix:
                         parameters:
-                            sylius_version: [ "1.13" ]
+                            sylius_version: [ "1.14" ]
                             php_version: [ "8.1", "8.2", "8.3" ]
                             symfony_version: [ "6.4" ]
 
@@ -62,7 +44,7 @@ jobs:
 
             # Sylius & Symfony in current matrix versions
             -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update --no-scripts
-            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* '| xargs composer require --no-interaction --no-update
+            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle|symfony/debug-bundle|symfony/web-profiler-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* ' | xargs composer require --no-interaction --no-update
 
             -   run:
                     name: Wait for database
@@ -79,14 +61,7 @@ jobs:
             -   run: (cd tests/Application && bin/console doctrine:schema:update --force --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
-            -   run:
-                    name: PHPStan
-                    command: |
-                        if [ "<< parameters.sylius_version >>" != "1.13" ]; then
-                            APP_ENV=test bin/phpstan.sh --configuration phpstan-before-sylius.1.13.dist.neon
-                        else
-                            APP_ENV=test bin/phpstan.sh
-                        fi
+            -   run: APP_ENV=test bin/phpstan.sh
             -   run: APP_ENV=test bin/ecs.sh --clear-cache
             -   run: APP_ENV=test bin/symfony-lint.sh
             -   run: APP_ENV=test bin/behat.sh
@@ -99,14 +74,7 @@ jobs:
             -   run: (cd tests/Application && bin/console doctrine:schema:update --force --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
-            -   run:
-                    name: PHPStan
-                    command: |
-                        if [ "<< parameters.sylius_version >>" != "1.13" ]; then
-                            APP_ENV=test bin/phpstan.sh --configuration phpstan-before-sylius.1.13.dist.neon
-                        else
-                            APP_ENV=test bin/phpstan.sh
-                        fi
+            -   run: APP_ENV=test bin/phpstan.sh
             -   run: APP_ENV=test bin/ecs.sh --clear-cache
             -   run: APP_ENV=test bin/symfony-lint.sh
             -   run: APP_ENV=test bin/behat.sh
