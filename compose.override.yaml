@@ -12,7 +12,7 @@ services:
 ###< symfony/mailer ###
 
 ###> doctrine/doctrine-bundle ###
-  database:
+  mysql:
     ports:
       - "5432"
 ###< doctrine/doctrine-bundle ###
