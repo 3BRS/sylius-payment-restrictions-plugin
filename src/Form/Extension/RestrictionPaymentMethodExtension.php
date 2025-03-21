@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class RestrictionPaymentMethodExtension extends AbstractTypeExtension
 {
-    public function __construct(private string $shippingMethodClass)
+    public function __construct(private readonly string $shippingMethodClass)
     {
     }
 
@@ -31,7 +31,7 @@ final class RestrictionPaymentMethodExtension extends AbstractTypeExtension
                 'expanded' => true,
                 'multiple' => true,
                 'required' => true,
-                'choice_label' => fn (ShippingMethodInterface $shippingMethod = null) => $shippingMethod !== null
+                'choice_label' => fn (?ShippingMethodInterface $shippingMethod = null) => $shippingMethod !== null
                     ? ($shippingMethod->getName() . ' (' . $shippingMethod->getCode() . ')')
                     : '',
             ]);
