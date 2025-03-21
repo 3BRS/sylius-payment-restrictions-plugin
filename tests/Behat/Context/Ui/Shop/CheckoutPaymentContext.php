@@ -11,7 +11,7 @@ use Webmozart\Assert\Assert;
 
 final class CheckoutPaymentContext implements Context
 {
-    public function __construct(private BaseCheckoutPaymentContext $checkoutPaymentContext)
+    public function __construct(private readonly BaseCheckoutPaymentContext $checkoutPaymentContext)
     {
     }
 

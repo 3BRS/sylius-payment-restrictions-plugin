@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
 final class ManagingPaymentMethodContext implements Context
 {
     public function __construct(
-        private UpdatePageInterface $updatePage,
+        private readonly UpdatePageInterface $updatePage,
     ) {
     }
 

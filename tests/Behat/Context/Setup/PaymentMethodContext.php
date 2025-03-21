@@ -16,9 +16,9 @@ use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterf
 final class PaymentMethodContext implements Context
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private PaymentMethodRepositoryInterface $paymentMethodRepository,
-        private ShippingMethodRepositoryInterface $shippingMethodRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
+        private readonly ShippingMethodRepositoryInterface $shippingMethodRepository,
     ) {
     }
 
@@ -69,7 +69,7 @@ final class PaymentMethodContext implements Context
     public function shippingMethodAllowsPayingWith(
         ShippingMethodInterface $shippingMethod,
         PaymentMethodInterface $paymentMethod,
-    ): void {
+    ): never {
         throw new \Exception();
     }
 }

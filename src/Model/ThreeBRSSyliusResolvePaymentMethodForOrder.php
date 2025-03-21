@@ -13,7 +13,7 @@ use Sylius\Component\Shipping\Model\ShippingMethodInterface;
 
 class ThreeBRSSyliusResolvePaymentMethodForOrder
 {
-    public function __construct(private ZoneMatcherInterface $zoneMatcher)
+    public function __construct(private readonly ZoneMatcherInterface $zoneMatcher)
     {
     }
 

@@ -8,8 +8,6 @@ Add support for Sylius 1.14
 
 Drop support for Sylius <= 1.13
 
-
-
 ## v2.2.0 (2025-02-12)
 
 #### Details
