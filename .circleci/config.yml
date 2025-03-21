@@ -9,7 +9,7 @@ workflows:
                     matrix:
                         parameters:
                             sylius_version: [ "1.14" ]
-                            php_version: [ "8.1", "8.2", "8.3" ]
+                            php_version: [ "8.1", "8.2", "8.3", "8.4" ]
                             symfony_version: [ "6.4" ]
 
 jobs:
