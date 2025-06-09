@@ -23,8 +23,7 @@ class PaymentMethodsResolver implements PaymentMethodsResolverInterface
     public function __construct(
         private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
         private readonly ThreeBRSSyliusResolvePaymentMethodForOrder $paymentOrderResolver,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<PaymentMethodInterface|PaymentMethodRestrictionInterface>
@@ -54,7 +53,8 @@ class PaymentMethodsResolver implements PaymentMethodsResolverInterface
 
     public function supports(BasePaymentInterface $subject): bool
     {
-        if (!$subject instanceof PaymentInterface ||
+        if (
+            !$subject instanceof PaymentInterface ||
             $subject->getOrder() === null
         ) {
             return false;

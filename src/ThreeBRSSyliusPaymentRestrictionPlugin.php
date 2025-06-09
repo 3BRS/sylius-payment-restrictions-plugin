@@ -9,10 +9,10 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 final class ThreeBRSSyliusPaymentRestrictionPlugin extends Bundle
 {
-    use SyliusPluginTrait;
+	use SyliusPluginTrait;
 
-    public function getPath(): string
-    {
-        return \dirname(__DIR__);
-    }
+	public function getPath(): string
+	{
+		return \dirname(__DIR__);
+	}
 }

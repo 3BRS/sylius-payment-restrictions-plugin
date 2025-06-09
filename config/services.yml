@@ -6,7 +6,7 @@ services:
 
     ThreeBRS\SyliusPaymentRestrictionPlugin\Model\ThreeBRSSyliusResolvePaymentMethodForOrder:
         arguments:
-            $zoneMatcher: '@sylius.matcher.zone'
+            $zoneMatcher: "@sylius.matcher.zone"
 
     ThreeBRS\SyliusPaymentRestrictionPlugin\PaymentResolver\PaymentMethodsResolver:
         tags:
@@ -15,11 +15,14 @@ services:
               label: "sylius.payment_methods_resolver.channel_based"
               priority: 100
         arguments:
-            $paymentMethodRepository: '@sylius.repository.payment_method'
+            $paymentMethodRepository: "@sylius.repository.payment_method"
             $paymentOrderResolver: '@ThreeBRS\SyliusPaymentRestrictionPlugin\Model\ThreeBRSSyliusResolvePaymentMethodForOrder'
 
     ThreeBRS\SyliusPaymentRestrictionPlugin\Form\Extension\RestrictionPaymentMethodExtension:
-            arguments:
-                $shippingMethodClass: '%sylius.model.shipping_method.class%'
-            tags:
-                - { name: form.type_extension, extended_type: Sylius\Bundle\PaymentBundle\Form\Type\PaymentMethodType }
+        arguments:
+            $shippingMethodClass: "%sylius.model.shipping_method.class%"
+        tags:
+            - {
+                  name: form.type_extension,
+                  extended_type: Sylius\Bundle\PaymentBundle\Form\Type\PaymentMethodType,
+              }

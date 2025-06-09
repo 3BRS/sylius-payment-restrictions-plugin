@@ -1,2 +1,4 @@
 imports:
-    - { resource: "@ThreeBRSSyliusPaymentRestrictionPlugin/config/app/twig_hooks/**/*.yaml" }
+    - {
+          resource: "@ThreeBRSSyliusPaymentRestrictionPlugin/config/app/twig_hooks/**/*.yaml",
+      }
