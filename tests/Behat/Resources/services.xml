@@ -8,8 +8,12 @@
 
 		<service id="Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Behat\Page\Admin\PaymentMethod\UpdatePageInterface"
 				 class="Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Behat\Page\Admin\PaymentMethod\UpdatePage"
-				 parent="sylius.behat.page.admin.crud.update" public="false">
-			<argument type="string">sylius_admin_channel_update</argument>
+				public="false">
+			<argument type="service" id="Behat\Mink\Session" />
+			<argument type="collection" />
+			<argument type="service" id="router" />
+			<argument type="string">sylius_admin_payment_method_update</argument>
+			<argument type="service" id="Sylius\Behat\Service\Helper\AutocompleteHelperInterface" />
 		</service>
 
 		<service id="sylius_payment_restriction.context.ui.admin.payment_method"
