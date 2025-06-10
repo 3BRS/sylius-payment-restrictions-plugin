@@ -3,6 +3,8 @@ default:
         limit_paymet_method_by_shipping_method:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
+                - sylius.behat.context.ui.save
+                - sylius.behat.context.setup.cart
 
                 - sylius.behat.context.setup.channel
                 - sylius.behat.context.setup.currency

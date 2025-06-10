@@ -18,26 +18,23 @@ class ThreeBRSSyliusResolvePaymentMethodForOrder
     public function isEligible(PaymentMethodRestrictionInterface $paymentMethod, OrderInterface $order): bool
     {
         $shippingAddress = $order->getShippingAddress();
-        assert($shippingAddress instanceof AddressInterface);
+        if (!$shippingAddress instanceof AddressInterface) {
+            return false;
+        }
 
         if (!$this->isAllowedForShippingMethod($paymentMethod, $order)) {
             return false;
         }
 
-        if ($paymentMethod->getZone() === null) {
+        $paymentMethodZone = $paymentMethod->getZone();
+        if ($paymentMethodZone === null) {
             return true;
         }
 
         $zones = $this->zoneMatcher->matchAll($shippingAddress);
         foreach ($zones as $zone) {
-            assert($zone instanceof ZoneInterface);
-            $paymentMethodZone = $paymentMethod->getZone();
-
-            if ($paymentMethodZone !== null) {
-                $paymentMethodZoneCode = $paymentMethodZone->getCode();
-                if ($paymentMethodZoneCode === $zone->getCode()) {
-                    return true;
-                }
+            if ($zone instanceof ZoneInterface && $paymentMethodZone->getCode() === $zone->getCode()) {
+                return true;
             }
         }
 
@@ -49,16 +46,17 @@ class ThreeBRSSyliusResolvePaymentMethodForOrder
         OrderInterface $order,
     ): bool {
         $shipment = $order->getShipments()->last();
-        if (!($shipment instanceof Shipment)) {
+        if (!$shipment instanceof Shipment) {
             return true;
         }
 
         $shippingMethod = $shipment->getMethod();
-        assert($shippingMethod instanceof ShippingMethodInterface);
+        if (!$shippingMethod instanceof ShippingMethodInterface) {
+            return false;
+        }
 
         foreach ($paymentMethod->getShippingMethods() as $sm) {
-            assert($sm instanceof ShippingMethodInterface);
-            if ($sm->getId() === $shippingMethod->getId()) {
+            if ($sm instanceof ShippingMethodInterface && $sm->getId() === $shippingMethod->getId()) {
                 return true;
             }
         }

@@ -11,10 +11,10 @@ use Symfony\Component\DependencyInjection\Loader;
 
 class ThreeBRSSyliusPaymentRestrictionExtension extends AbstractResourceExtension
 {
-	/** @psalm-suppress UnusedVariable */
-	public function load(array $configs, ContainerBuilder $container): void
-	{
-		$loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
-		$loader->load('services.yml');
-	}
+    /** @psalm-suppress UnusedVariable */
+    public function load(array $configs, ContainerBuilder $container): void
+    {
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
+        $loader->load('services.yml');
+    }
 }
