@@ -1,101 +1,107 @@
 {
-  "name": "3brs/sylius-payment-restrictions-plugin",
-  "type": "sylius-plugin",
-  "description": "Payment restriction plugin for Sylius",
-  "keywords": ["sylius", "sylius-plugin", "plugin", "payment", "restriction"],
-  "license": "MIT",
-  "require": {
-    "php": "^8.2",
-    "sylius/sylius": "2.0.*",
-    "symfony/browser-kit": "7.2.*",
-    "symfony/debug-bundle": "7.2.*",
-    "symfony/dotenv": "7.2.*",
-    "symfony/framework-bundle": "7.2.*",
-    "symfony/http-foundation": "7.2.*",
-    "symfony/http-kernel": "7.2.*",
-    "symfony/intl": "7.2.*",
-    "symfony/web-profiler-bundle": "7.2.*",
-    "symfony/doctrine-bridge": "7.2.*",
-    "symfony/css-selector": "7.2.*",
-    "symfony/mime": "7.2.*",
-    "symfony/web-link": "7.2.*"
-  },
-  "require-dev": {
-    "behat/behat": "^v3.19.0",
-    "dmore/behat-chrome-extension": "^1.4.0",
-    "dmore/chrome-mink-driver": "^2.9.3",
-    "friends-of-behat/mink": "^v1.11.0",
-    "friends-of-behat/mink-browserkit-driver": "^v1.6.2",
-    "friends-of-behat/mink-debug-extension": "^v2.1.0",
-    "friends-of-behat/mink-extension": "^v2.7.5",
-    "friends-of-behat/page-object-extension": "^v0.3.2",
-    "friends-of-behat/suite-settings-extension": "^v1.1.0",
-    "friends-of-behat/symfony-extension": "v2.6.0",
-    "friends-of-behat/variadic-extension": "^v1.6.0",
-    "php-http/message-factory": "^1.1.0",
-    "phpstan/phpstan": "^2.1.10",
-    "phpstan/phpstan-doctrine": "^2.0.2",
-    "phpstan/phpstan-strict-rules": "^2.0.4",
-    "phpstan/phpstan-symfony": "^2.0.3",
-    "phpstan/phpstan-webmozart-assert": "^2.0.0",
-    "phpunit/phpunit": "^11.1 || ^12.0.10",
-    "polishsymfonycommunity/symfony-mocker-container": "^v1.0.8",
-    "rector/rector": "^2.0.10",
-    "sylius-labs/coding-standard": "^v4.4.0",
-    "doctrine/annotations": "^2.0.2",
-    "symplify/easy-coding-standard": "^12.0",
-    "sylius/sylius-rector": "^v3.0.0"
-  },
-  "conflict": {
-    "api-platform/symfony": "<v4.1.0",
-    "api-platform/core": "<2.7.13",
-    "babdev/pagerfanta-bundle": "<3.6.1",
-    "doctrine/collections": "<1.7.0",
-    "doctrine/data-fixtures": "<1.5.1",
-    "doctrine/dbal": "<2.13.3",
-    "doctrine/doctrine-bundle": "<2.8.0",
-    "friendsofsymfony/rest-bundle": "<3.1.0",
-    "jms/serializer-bundle": "<4.2.0",
-    "masterminds/html5": "<2.7.5",
-    "knplabs/knp-menu": "<3.3.0",
-    "lexik/jwt-authentication-bundle": "<2.12",
-    "payum/core": "<1.7.3",
-    "polishsymfonycommunity/symfony-mocker-container": "<1.0.6",
-    "sylius/resource-bundle": "<1.10.0",
-    "symfony/css-selector": "<4.4.24",
-    "symfony/framework-bundle": ">=5.4.0 <=5.4.20|>=6.0.0 <=6.0.16|>=6.1.0 <=6.1.8|>=6.2.0 <=6.2.2|6.2.8",
-    "symfony/mime": "<5.4.0",
-    "symfony/web-link": "<5.3.0",
-    "symplify/easy-coding-standard": "<10.2.0|12.5.10",
-    "sylius/sylius": "<2.0.6",
-    "twig/twig": "<2.14.7",
-    "webmozart/assert": "<1.11.0",
-    "willdurand/negotiation": "<3.0"
-  },
-  "prefer-stable": true,
-  "autoload": {
-    "psr-4": {
-      "ThreeBRS\\SyliusPaymentRestrictionPlugin\\": "src/"
+    "name": "3brs/sylius-payment-restrictions-plugin",
+    "type": "sylius-plugin",
+    "description": "Payment restriction plugin for Sylius",
+    "keywords": [
+        "sylius",
+        "sylius-plugin",
+        "plugin",
+        "payment",
+        "restriction"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "sylius/sylius": "2.0.*"
+    },
+    "require-dev": {
+        "behat/behat": "^v3.19.0",
+        "dmore/behat-chrome-extension": "^1.4.0",
+        "dmore/chrome-mink-driver": "^2.9.3",
+        "friends-of-behat/mink": "^v1.11.0",
+        "friends-of-behat/mink-browserkit-driver": "^v1.6.2",
+        "friends-of-behat/mink-debug-extension": "^v2.1.0",
+        "friends-of-behat/mink-extension": "^v2.7.5",
+        "friends-of-behat/page-object-extension": "^v0.3.2",
+        "friends-of-behat/suite-settings-extension": "^v1.1.0",
+        "friends-of-behat/symfony-extension": "v2.6.0",
+        "friends-of-behat/variadic-extension": "^v1.6.0",
+        "php-http/message-factory": "^1.1.0",
+        "phpstan/phpstan": "^2.1.10",
+        "phpstan/phpstan-doctrine": "^2.0.2",
+        "phpstan/phpstan-strict-rules": "^2.0.4",
+        "phpstan/phpstan-symfony": "^2.0.3",
+        "phpstan/phpstan-webmozart-assert": "^2.0.0",
+        "phpunit/phpunit": "^11.1 || ^12.0.10",
+        "polishsymfonycommunity/symfony-mocker-container": "^v1.0.8",
+        "rector/rector": "^2.0.10",
+        "sylius-labs/coding-standard": "^v4.4.0",
+        "symfony/browser-kit": "^6.4|^7.1",
+        "symfony/debug-bundle": "^6.4|^7.1",
+        "symfony/dotenv": "^6.4|^7.1",
+        "symfony/framework-bundle": "^6.4|^7.1",
+        "symfony/http-foundation": "^6.4|^7.1",
+        "symfony/http-kernel": "^6.4|^7.1",
+        "symfony/intl": "^6.4|^7.1",
+        "symfony/web-profiler-bundle": "^6.4|^7.1",
+        "symfony/doctrine-bridge": "^6.4|^7.1",
+        "symfony/css-selector": "^6.4|^7.1",
+        "symfony/mime": "^6.4|^7.1",
+        "symfony/web-link": "^6.4|^7.1",
+        "doctrine/annotations": "^2.0.2",
+        "symplify/easy-coding-standard": "^12.0",
+        "sylius/sylius-rector": "^v3.0.0"
+    },
+    "conflict": {
+        "api-platform/symfony": "<v4.1.0",
+        "api-platform/core": "<2.7.13",
+        "babdev/pagerfanta-bundle": "<3.6.1",
+        "doctrine/collections": "<1.7.0",
+        "doctrine/data-fixtures": "<1.5.1",
+        "doctrine/dbal": "<2.13.3",
+        "doctrine/doctrine-bundle": "<2.8.0",
+        "friendsofsymfony/rest-bundle": "<3.1.0",
+        "jms/serializer-bundle": "<4.2.0",
+        "masterminds/html5": "<2.7.5",
+        "knplabs/knp-menu": "<3.3.0",
+        "lexik/jwt-authentication-bundle": "<2.12",
+        "payum/core": "<1.7.3",
+        "polishsymfonycommunity/symfony-mocker-container": "<1.0.6",
+        "sylius/resource-bundle": "<1.10.0",
+        "symfony/css-selector": "<4.4.24",
+        "symfony/framework-bundle": ">=5.4.0 <=5.4.20|>=6.0.0 <=6.0.16|>=6.1.0 <=6.1.8|>=6.2.0 <=6.2.2|6.2.8",
+        "symfony/mime": "<5.4.0",
+        "symfony/web-link": "<5.3.0",
+        "symplify/easy-coding-standard": "<10.2.0|12.5.10",
+        "sylius/sylius": "<2.0.6",
+        "twig/twig": "<2.14.7",
+        "webmozart/assert": "<1.11.0",
+        "willdurand/negotiation": "<3.0"
+},
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "ThreeBRS\\SyliusPaymentRestrictionPlugin\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\ThreeBRS\\SyliusPaymentRestrictionPlugin\\": "tests/Application/src/",
+            "Tests\\ThreeBRS\\SyliusPaymentRestrictionPlugin\\Behat\\": "tests/Behat/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true,
+            "symfony/flex": false,
+            "php-http/discovery": true
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        }
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\ThreeBRS\\SyliusPaymentRestrictionPlugin\\": "tests/Application/src/",
-      "Tests\\ThreeBRS\\SyliusPaymentRestrictionPlugin\\Behat\\": "tests/Behat/"
-    }
-  },
-  "config": {
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true,
-      "phpstan/extension-installer": true,
-      "symfony/flex": false,
-      "php-http/discovery": true
-    }
-  },
-  "scripts": {
-    "auto-scripts": {
-      "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd"
-    }
-  }
 }
