@@ -17,3 +17,5 @@ Templates are now rendered using Twig hooks, which is the standard in Sylius 2:
 -   **Admin**
 
     -   [hook.yaml](https://github.com/3BRS/sylius-payment-restrictions-plugin/blob/sylius_2_upgrade_AK/config/app/twig_hooks/admin/hooks.yaml) contains config for Twig hooks used in Admin
+
+    -   Since `_form.html.twig` is now hooked into payment method form, Revert any changes in `@SyliusAdmin/PaymentMethod/_form.html.twig` back to original.

@@ -72,26 +72,6 @@
 
     ```
 
-1. Add to `@SyliusAdmin/PaymentMethod/_form.html.twig` (you will have to probably copy-paste original as there is no way to extend that section)
-
-    ```twig
-    {# ... #}
-
-        <div class="mb-4">
-            {# ... #}
-
-            <div class="row">
-                <div class="col-md-6">
-                    {{ form_row(form.zone) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.shippingMethods) }}
-                </div>
-            </div>
-        </div>
-    {# ... #}
-    ```
-
 1. Create and run doctrine database migrations
     ```bash
     bin/console doctrine:migrations:diff
