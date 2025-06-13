@@ -56,7 +56,7 @@ lint:
 behat:
 	APP_ENV=test bin/behat.sh
 
-init: install backend frontend fixtures var
+init: install backend frontend
 
 tests: phpstan ecs lint behat
 
