@@ -126,5 +126,4 @@ This library is under the MIT license.
 
 ## Credits
 
-Developed by [3BRS](https://3brs.com)<br>
-Forked from [manGoweb](https://github.com/mangoweb-sylius/SyliusPaymentRestrictionsPlugin).
+Developed by [3BRS](https://3brs.com)
