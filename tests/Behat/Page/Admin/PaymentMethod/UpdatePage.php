@@ -31,7 +31,7 @@ final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
     {
         $shippingMethodElement = $Page->find(
             'css',
-            '#sylius_payment_method_shippingMethods_' . $shipmentMethodId,
+            '#sylius_admin_payment_method_shippingMethods_' . $shipmentMethodId,
         );
         assert($shippingMethodElement instanceof NodeElement);
 
@@ -51,7 +51,7 @@ final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
         return array_merge(
             parent::getDefinedElements(),
             [
-                'zone' => '#sylius_payment_method_zone',
+                'zone' => '#sylius_admin_payment_method_zone',
             ],
         );
     }

@@ -4,7 +4,7 @@ FROM ghcr.io/sylius/sylius-php:8.3-xdebug-alpine
 
 RUN apk add --no-cache \
     bash \
-    make
+    make 
 
 COPY --from=node /usr/lib /usr/lib
 COPY --from=node /usr/local/share /usr/local/share

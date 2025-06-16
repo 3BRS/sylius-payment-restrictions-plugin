@@ -54,7 +54,8 @@ class PaymentMethodsResolver implements PaymentMethodsResolverInterface
 
     public function supports(BasePaymentInterface $subject): bool
     {
-        if (!$subject instanceof PaymentInterface ||
+        if (
+            !$subject instanceof PaymentInterface ||
             $subject->getOrder() === null
         ) {
             return false;

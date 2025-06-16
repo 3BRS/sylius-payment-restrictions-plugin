@@ -20,12 +20,12 @@
 
 ## Features
 
-- Restrict payment method by zone. This enables to limit selected payment methods to specific zones or areas from the
-  delivery address.
-- Restrict payment method by shipping method - this means that it can disable specific shipment-payment combinations.
+-   Restrict payment method by zone. This enables to limit selected payment methods to specific zones or areas from the
+    delivery address.
+-   Restrict payment method by shipping method - this means that it can disable specific shipment-payment combinations.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/3BRS/sylius-payment-restrictions-plugin/master/doc/admin.png"/>
+	<img src="https://github.com/3BRS/sylius-payment-restrictions-plugin/blob/sylius_2_upgrade_AK/doc/admin.png?raw=true">
 </p>
 
 ## Installation
@@ -33,62 +33,43 @@
 1. Run `$ composer require 3brs/sylius-payment-restrictions-plugin`
 1. Add plugin class to your `config/bundles.php`
 
-   ```php
-   return [
-      ...
-      ThreeBRS\SyliusPaymentRestrictionPlugin\ThreeBRSSyliusPaymentRestrictionPlugin::class => ['all' => true],
-   ];
-   ```
+    ```php
+    return [
+       ...
+       ThreeBRS\SyliusPaymentRestrictionPlugin\ThreeBRSSyliusPaymentRestrictionPlugin::class => ['all' => true],
+    ];
+    ```
 
 1. Your Entity `PaymentMethod` has to implement `\ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface`. You can use
    Trait `ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionTrait`
 
-   ```php
-   <?php 
-   
-   declare(strict_types=1);
-   
-   namespace App\Entity\Payment;
-   
-   use Doctrine\Common\Collections\ArrayCollection;
-   use Doctrine\ORM\Mapping as ORM;
-   use Sylius\Component\Core\Model\Payment as BasePayment;
-   use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface;
-   use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionTrait;
-   
-   /**
-    * @ORM\Entity
-    * @ORM\Table(name="sylius_payment_method")
-    */
-   class PaymentMethod extends BasePayment implements PaymentMethodRestrictionInterface
-   {
-       use PaymentMethodRestrictionTrait;
-   
-       public function __construct()
-       {
-           parent::__construct();
-       
-           $this->shippingMethods = new ArrayCollection();
-       }
-   }
-   ```
+    ```php
+        <?php
 
-1. Add to `@SyliusAdmin/PaymentMethod/_form.html.twig` (you will have to probably copy-paste original as there is no way to extend that section)
+        declare(strict_types=1);
 
-    ```twig
-    {# ... #}
-    
-    <div class="ui segment">
-    
-        {# ... #}
-        
-        <div class="two fields">
-            {{ form_row(form.zone) }}
-            {{ form_row(form.shippingMethods) }}
-        </div>
-    </div>
-    
-    {# ... #}
+        namespace Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Entity;
+
+        use Doctrine\Common\Collections\ArrayCollection;
+        use Doctrine\ORM\Mapping as ORM;
+        use Sylius\Component\Core\Model\PaymentMethod as BasePaymentMethod;
+        use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface;
+        use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionTrait;
+
+        #[ORM\Entity]
+        #[ORM\Table(name: 'sylius_payment_method')]
+        class PaymentMethod extends BasePaymentMethod implements PaymentMethodRestrictionInterface
+        {
+            use PaymentMethodRestrictionTrait;
+
+            public function __construct()
+            {
+                parent::__construct();
+
+                $this->shippingMethods = new ArrayCollection();
+            }
+        }
+
     ```
 
 1. Create and run doctrine database migrations
@@ -97,15 +78,15 @@
     bin/console doctrine:migrations:migrate
     ```
 
-- how to use your own entity
-  see [Sylius docs - Customizing Models](https://docs.sylius.com/en/1.12/customization/model.html)
+-   how to use your own entity
+    see [Sylius docs - Customizing Models](https://docs.sylius.com/en/1.12/customization/model.html)
 
 ## Development
 
 ### Usage
 
-- Alter plugin in `/src`
-- See `bin/` dir for useful commands
+-   Alter plugin in `/src`
+-   See `bin/` dir for useful commands
 
 ### Testing
 
@@ -129,7 +110,7 @@ vendor/bin/phpspec run
 1. Install symfony CLI command: https://symfony.com/download
     - hint: for Docker (with Ubuntu) use _Debian/Ubuntu — APT based
       Linux_ installation steps as `root` user and without `sudo` command
-        - you may need to install `curl` first ```apt-get update && apt-get install curl --yes```
+        - you may need to install `curl` first `apt-get update && apt-get install curl --yes`
 2. Run app
 
 ```bash
@@ -137,13 +118,13 @@ vendor/bin/phpspec run
 (cd tests/Application && APP_ENV=test symfony server:start --dir=public --port=8080)
 ```
 
-- change `APP_ENV` to `dev` if you need it
+-   change `APP_ENV` to `dev` if you need it
 
-License
--------
+## License
+
 This library is under the MIT license.
 
-Credits
--------
+## Credits
+
 Developed by [3BRS](https://3brs.com)<br>
 Forked from [manGoweb](https://github.com/mangoweb-sylius/SyliusPaymentRestrictionsPlugin).

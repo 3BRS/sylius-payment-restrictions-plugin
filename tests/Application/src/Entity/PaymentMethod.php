@@ -10,10 +10,8 @@ use Sylius\Component\Core\Model\PaymentMethod as BasePaymentMethod;
 use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface;
 use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionTrait;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="sylius_payment_method")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'sylius_payment_method')]
 class PaymentMethod extends BasePaymentMethod implements PaymentMethodRestrictionInterface
 {
     use PaymentMethodRestrictionTrait;
