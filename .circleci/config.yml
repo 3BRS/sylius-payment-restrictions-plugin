@@ -9,7 +9,7 @@ workflows:
                       parameters:
                           sylius_version: ["2.0", "2.1"]
                           php_version: ["8.2", "8.3", "8.4"]
-                          symfony_version: ["6.4", "7.1", "7.2", "7.3"]
+                          symfony_version: ["6.4", "7.2", "7.3"]
 
 jobs:
     build:
@@ -23,7 +23,7 @@ jobs:
         docker:
             - image: webdevops/php-nginx:<< parameters.php_version >>
               environment:
-                  - DATABASE_URL=mysql://root:pass_root@127.0.0.1:3306/3brs_sylius_payment_fee_plugin_%kernel.environment%?serverVersion=8.0
+                  - DATABASE_URL=mysql://root:pass_root@127.0.0.1:3306/3brs_sylius_payment_restrictions_plugin_%kernel.environment%?serverVersion=8.0
             - image: cimg/mysql:8.0
               environment:
                   MYSQL_ROOT_PASSWORD: pass_root
