@@ -12,7 +12,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "sylius/sylius": "2.0.*"
+        "sylius/sylius": "^2.0"
     },
     "require-dev": {
         "behat/behat": "^v3.19.0",
