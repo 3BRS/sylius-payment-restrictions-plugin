@@ -9,7 +9,7 @@ parameters:
     ignoreErrors:
             - '#Trait ThreeBRS\\SyliusPaymentRestrictionPlugin\\Model\\PaymentMethodRestrictionTrait is used zero times#'
             - '#Instanceof between .* will always evaluate to true#'
-            - '#implicitly nullable#'
+            - message: '#parameter\.implicitlyNullable#'
 
 
     excludePaths:
