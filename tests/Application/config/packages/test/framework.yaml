@@ -11,5 +11,5 @@ framework:
                 adapter: cache.adapter.filesystem
 
     profiler:
-        enabled: true
-        collect: true
+        enabled: false
+        collect: false

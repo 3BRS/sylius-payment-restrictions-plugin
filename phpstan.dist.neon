@@ -1,17 +1,11 @@
-includes:
-    - vendor/phpstan/phpstan-doctrine/extension.neon
-    - vendor/phpstan/phpstan-symfony/extension.neon
-
 parameters:
     symfony:
         containerXmlPath: tests/Application/var/cache/test/Tests_ThreeBRS_SyliusPaymentRestrictionPlugin_KernelTestDebugContainer.xml
-   
+
     ignoreErrors:
-            - '#Trait ThreeBRS\\SyliusPaymentRestrictionPlugin\\Model\\PaymentMethodRestrictionTrait is used zero times#'
-            - '#Instanceof between .* will always evaluate to true#'
+        - '#Trait ThreeBRS\\SyliusPaymentRestrictionPlugin\\Model\\PaymentMethodRestrictionTrait is used zero times#'
+        - '#Instanceof between .* will always evaluate to true#'
+        - '#Deprecated in PHP 8\.4: Parameter \#1 \$shippingMethod.*is implicitly nullable via default value null#'
 
     excludePaths:
         - 'tests/'
-    
-  
-
