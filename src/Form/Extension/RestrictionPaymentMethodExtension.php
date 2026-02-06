@@ -31,7 +31,7 @@ final class RestrictionPaymentMethodExtension extends AbstractTypeExtension
                 'expanded' => true,
                 'multiple' => true,
                 'required' => true,
-                'choice_label' => fn (ShippingMethodInterface $shippingMethod = null) => $shippingMethod !== null
+                'choice_label' => fn (?ShippingMethodInterface $shippingMethod = null) => $shippingMethod !== null
                     ? ($shippingMethod->getName() . ' (' . $shippingMethod->getCode() . ')')
                     : '',
             ]);

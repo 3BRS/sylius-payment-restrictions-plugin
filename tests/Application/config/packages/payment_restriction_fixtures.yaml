@@ -1,0 +1,18 @@
+sylius_fixtures:
+    suites:
+        default:
+            fixtures:
+                payment_method_restriction:
+                    priority: -1
+                    options:
+                        custom:
+                            -
+                                payment_method: 'cash_on_delivery'
+                                shipping_methods:
+                                    - 'ups'
+                                    - 'dhl_express'
+                            -
+                                payment_method: 'bank_transfer'
+                                shipping_methods:
+                                    - 'fedex'
+                                    - 'dhl_express'

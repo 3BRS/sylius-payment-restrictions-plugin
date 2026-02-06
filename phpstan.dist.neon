@@ -3,15 +3,24 @@ includes:
     - vendor/phpstan/phpstan-symfony/extension.neon
 
 parameters:
+    reportUnmatchedIgnoredErrors: false
     symfony:
         containerXmlPath: tests/Application/var/cache/test/Tests_ThreeBRS_SyliusPaymentRestrictionPlugin_KernelTestDebugContainer.xml
-   
+
     ignoreErrors:
-            - '#Trait ThreeBRS\\SyliusPaymentRestrictionPlugin\\Model\\PaymentMethodRestrictionTrait is used zero times#'
-            - '#Instanceof between .* will always evaluate to true#'
+        - '#Trait ThreeBRS\\SyliusPaymentRestrictionPlugin\\Model\\PaymentMethodRestrictionTrait is used zero times#'
+        - '#Instanceof between .* will always evaluate to true#'
+        -
+            message: '#has parameter \$optionsNode with generic class#'
+            path: src/Fixture/*.php
+        -
+            message: '#Call to method .* on an unknown class Symfony\\Component\\Config\\Definition\\Builder\\NodeBuilder#'
+            path: src/Fixture/*.php
+        -
+            message: '#Cannot call method .* on mixed#'
+            path: src/Fixture/*.php
 
     excludePaths:
-        - 'tests/'
-    
-  
-
+        - tests/Application/var/*
+        - tests/Application/node_modules/*
+        - tests/

@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## v3.1.0 (2026-02-06)
+
+### Changed
+
+- Requires Sylius ^2.1 (supports both 2.1 and 2.2)
+- Requires PHP ^8.3
+- Updated Symfony dependencies to ^6.4 || ^7.4
+
+### Added
+
+- Payment method restriction fixture for easier manual testing
+- `.gitattributes` for cleaner Packagist distribution
+- CI matrix for Sylius 2.1/2.2 with PHP 8.3/8.4
+
+### Fixed
+
+- PHP 8.4 implicitly nullable parameter deprecation
+- Doctrine ORM 3.x compatibility
+
 ## v3.0.0 (2025-06-09)
 
 ### Details
