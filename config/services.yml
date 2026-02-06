@@ -26,3 +26,12 @@ services:
                   name: form.type_extension,
                   extended_type: Sylius\Bundle\PaymentBundle\Form\Type\PaymentMethodType,
               }
+
+    ThreeBRS\SyliusPaymentRestrictionPlugin\Fixture\PaymentMethodRestrictionFixture:
+        arguments:
+            $paymentMethodRepository: "@sylius.repository.payment_method"
+            $zoneRepository: "@sylius.repository.zone"
+            $shippingMethodRepository: "@sylius.repository.shipping_method"
+            $entityManager: "@doctrine.orm.entity_manager"
+        tags:
+            - { name: sylius_fixtures.fixture }

@@ -96,7 +96,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "phpstan/extension-installer": true,
             "symfony/flex": false,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "rector/extension-installer": true
         }
     },
     "scripts": {

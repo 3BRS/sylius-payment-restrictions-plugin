@@ -13,6 +13,8 @@ COPY --from=node /usr/local/include /usr/local/include
 COPY --from=node /usr/local/bin /usr/local/bin
 COPY --from=node /opt /opt
 
+COPY php-fpm.ini /usr/local/etc/php/conf.d/zz-custom.ini
+
 CMD [ "php-fpm" ]
 
 ENTRYPOINT [ "docker-php-entrypoint" ]
