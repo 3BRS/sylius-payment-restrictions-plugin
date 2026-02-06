@@ -14,13 +14,10 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use ThreeBRS\SyliusPaymentRestrictionPlugin\Model\PaymentMethodRestrictionInterface;
 
+/** @psalm-suppress MissingTemplateParam */
 final class PaymentMethodRestrictionFixture extends AbstractFixture
 {
-    /**
-     * @param PaymentMethodRepositoryInterface $paymentMethodRepository
-     * @param RepositoryInterface<ZoneInterface> $zoneRepository
-     * @param RepositoryInterface<ShippingMethodInterface> $shippingMethodRepository
-     */
+    /** @param PaymentMethodRepositoryInterface<\Sylius\Component\Payment\Model\PaymentMethodInterface> $paymentMethodRepository */
     public function __construct(
         private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
         private readonly RepositoryInterface $zoneRepository,
@@ -29,6 +26,7 @@ final class PaymentMethodRestrictionFixture extends AbstractFixture
     ) {
     }
 
+    /** @param array{custom: array<array{payment_method: string, zone: string|null, shipping_methods: array<string>}>} $options */
     public function load(array $options): void
     {
         foreach ($options['custom'] as $restrictionOptions) {
@@ -58,6 +56,7 @@ final class PaymentMethodRestrictionFixture extends AbstractFixture
                         $restrictionOptions['zone'],
                     ));
                 }
+                \assert($zone instanceof ZoneInterface);
                 $paymentMethod->setZone($zone);
             }
 
@@ -71,9 +70,12 @@ final class PaymentMethodRestrictionFixture extends AbstractFixture
                             $code,
                         ));
                     }
+                    \assert($shippingMethod instanceof ShippingMethodInterface);
                     $shippingMethods[] = $shippingMethod;
                 }
-                $paymentMethod->setShippingMethods(new ArrayCollection($shippingMethods));
+                /** @var ArrayCollection<int, ShippingMethodInterface> $collection */
+                $collection = new ArrayCollection($shippingMethods);
+                $paymentMethod->setShippingMethods($collection);
             }
         }
 
