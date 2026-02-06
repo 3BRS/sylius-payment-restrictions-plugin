@@ -33,3 +33,8 @@ references related issues.
 - `doctrine/data-fixtures: <1.8.0`:
 
   Older versions are incompatible with Doctrine ORM 3.x (`ORMPurger::getJoinTableName()` type error).
+
+- `payum/core: <1.7.3`:
+
+  Versions before 1.7.3 have `LoggerExtension::setLogger()` without `: void` return type,
+  which is incompatible with `Psr\Log\LoggerAwareInterface::setLogger()` declaration.

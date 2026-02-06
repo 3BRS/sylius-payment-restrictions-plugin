@@ -68,7 +68,8 @@
         "symfony/framework-bundle": ">=5.4.0 <=5.4.20|>=6.0.0 <=6.0.16|>=6.1.0 <=6.1.8|>=6.2.0 <=6.2.2|6.2.8",
         "symfony/validator": "7.3.0",
         "symplify/easy-coding-standard": "<10.2.0|12.5.10",
-        "doctrine/data-fixtures": "<1.8.0"
+        "doctrine/data-fixtures": "<1.8.0",
+        "payum/core": "<1.7.3"
     },
     "prefer-stable": true,
     "autoload": {
