@@ -6,6 +6,7 @@ namespace Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Behat\Context\Ui\Shop;
 
 use Behat\Behat\Context\Context;
 use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Step\Given;
 use Sylius\Behat\Context\Ui\Shop\Checkout\CheckoutPaymentContext as BaseCheckoutPaymentContext;
 use Webmozart\Assert\Assert;
 
@@ -15,9 +16,7 @@ final class CheckoutPaymentContext implements Context
     {
     }
 
-    /**
-     * @Given /^I can not see ("([^"]+)" payment method) in the list of payment methods$/
-     */
+    #[Given('/^I can not see ("[^"]+" payment method) in the list of payment methods$/')]
     public function shippingMethodAllowsPayingWith(string $name): void
     {
         Assert::throws(function () use ($name) {

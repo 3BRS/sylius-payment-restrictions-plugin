@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\ThreeBRS\SyliusPaymentRestrictionPlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\When;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Model\ShippingMethodInterface;
@@ -18,17 +19,13 @@ final class ManagingPaymentMethodContext implements Context
     ) {
     }
 
-    /**
-     * @When /^I select (shipping method "([^"]+)")$/
-     */
+    #[When('/^I select (shipping method "[^"]+")$/')]
     public function iSelectShippingMethod(ShippingMethodInterface $shippingMethod): void
     {
         $this->updatePage->activateForShippingMethod($shippingMethod->getId());
     }
 
-    /**
-     * @When /^(this payment method) is enabled for (shipping method "([^"]+)")$/
-     */
+    #[When('/^(this payment method) is enabled for (shipping method "[^"]+")$/')]
     public function thisPaymentMethodHasShippingMethod(
         PaymentMethodInterface $paymentMethod,
         ShippingMethodInterface $shippingMethod,
@@ -36,17 +33,13 @@ final class ManagingPaymentMethodContext implements Context
         Assert::true($this->updatePage->isActiveForShippingMethod($shippingMethod->getId()));
     }
 
-    /**
-     * @When /^I change (this payment method) zone to (zone "([^"]+)")$/
-     */
+    #[When('/^I change (this payment method) zone to (zone "[^"]+")$/')]
     public function thisPaymentMethodHasZone(PaymentMethodInterface $paymentMethod, ZoneInterface $zone): void
     {
         $this->updatePage->changeZone((string) $zone->getCode());
     }
 
-    /**
-     * @When /^the allowed zone for (this payment method) should be (zone "([^"]+)")$/
-     */
+    #[When('/^the allowed zone for (this payment method) should be (zone "[^"]+")$/')]
     public function thisPaymentMethodZoneShouldBe(PaymentMethodInterface $paymentMethod, ZoneInterface $zone): void
     {
         Assert::eq($this->updatePage->getSingleResourceOnPage('zone'), $zone->getCode());

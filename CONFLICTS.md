@@ -20,12 +20,6 @@ references related issues.
 
   Older versions cause "no registered paths for namespace KnpMenu" errors.
 
-- `symfony/var-exporter: >=8.0`, `symfony/error-handler: >=8.0`:
-
-  On PHP 8.4, Composer may resolve unconstrained Symfony packages to v8.0 via
-  transitive dependencies. Symfony 8.0 removed `ProxyHelper::generateLazyGhost()`
-  which breaks Doctrine ORM.
-
 - `sylius/resource-bundle: <1.13.1`:
 
   Version 1.13.0 has a bug causing "No locale has been set" errors.
@@ -38,3 +32,8 @@ references related issues.
 
   Versions before 1.7.3 have `LoggerExtension::setLogger()` without `: void` return type,
   which is incompatible with `Psr\Log\LoggerAwareInterface::setLogger()` declaration.
+
+- `liip/imagine-bundle: 2.17.0`:
+
+  The `liip_imagine.binary.locator.asset_mapper` service definition is broken in this version
+  (fixed in 2.17.1).

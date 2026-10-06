@@ -1,5 +1,0 @@
-imports:
-    - suites/limit_paymet_method_by_shipping_method.yml
-    - suites/limit_paymet_method_by_zone.yml
-    - suites/set_shipping_method_restrictions_to_payment_method.yml
-    - suites/set_zone_restrictions_to_payment_method.yml

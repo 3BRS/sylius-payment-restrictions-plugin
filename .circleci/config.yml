@@ -11,6 +11,19 @@ workflows:
                           php_version: ["8.3", "8.4"]
                           symfony_version: ["7.4"]
 
+            - build:
+                  name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
+                  matrix:
+                      parameters:
+                          sylius_version: ["2.3"]
+                          php_version: ["8.3", "8.4"]
+                          symfony_version: ["7.4", "8.1"]
+                      # Symfony 8 requires PHP 8.4
+                      exclude:
+                          -   sylius_version: "2.3"
+                              php_version: "8.3"
+                              symfony_version: "8.1"
+
 jobs:
     build:
         parameters:
@@ -24,6 +37,7 @@ jobs:
             - image: webdevops/php-nginx:<< parameters.php_version >>
               environment:
                   - DATABASE_URL=mysql://root:pass_root@127.0.0.1:3306/3brs_sylius_payment_fee_plugin_%kernel.environment%?serverVersion=8.0
+                  - SYMFONY_REQUIRE=<< parameters.symfony_version >>.*
             - image: cimg/mysql:8.0
               environment:
                   MYSQL_ROOT_PASSWORD: pass_root
@@ -35,7 +49,7 @@ jobs:
             # to avoid installing different package "Note, selecting 'cmdtest' instead of 'yarn'"
             - run: curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
             - run: echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-            - run: curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+            - run: curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
             - run: apt-get update
               # netcat to get 'nc' command for waiting for database
             - run: apt-get install -y nodejs yarn mariadb-client netcat-openbsd
@@ -43,7 +57,18 @@ jobs:
 
             # Sylius & Symfony in current matrix versions
             - run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update --no-scripts
-            - run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle|symfony/maker-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* '| xargs composer require --no-interaction --no-update
+            # global Flex applies SYMFONY_REQUIRE to all symfony/* packages including transitive ones
+            - run: composer global config --no-plugins allow-plugins.symfony/flex true
+            - run: composer global require --no-progress --no-scripts --no-plugins symfony/flex
+            # Sylius 2.1 and 2.2 Behat contexts need Behat 3, their admin and shop assets Encore 5
+            - when:
+                  condition:
+                      matches:
+                          pattern: "^2\\.[12]$"
+                          value: << parameters.sylius_version >>
+                  steps:
+                      - run: composer require --dev "behat/behat:^3.34" --no-interaction --no-update --no-scripts
+                      - run: cd tests/Application && npm pkg set "devDependencies.@symfony/webpack-encore=^5.0.1"
 
             - run:
                   name: Wait for database
@@ -54,7 +79,7 @@ jobs:
             # COMPOSER PREFER LOWEST (oldest possible) #
             # has to delete vendor for next test with different libraries version to avoid Composer error 'Failed to extract...' if vendor dir cache does not exist
             - run: rm -fr composer.lock
-            - run: composer update --no-interaction --prefer-lowest --no-plugins
+            - run: composer update --no-interaction --prefer-lowest
             - run: yarn --cwd tests/Application install
             - run: yarn --cwd tests/Application build
             - run: (cd tests/Application && bin/console doctrine:database:create --if-not-exists --env=test -vvv)
@@ -69,7 +94,7 @@ jobs:
 
             # COMPOSER PREFER DIST #
             - run: rm -fr vendor composer.lock
-            - run: composer update --no-interaction --prefer-dist --no-plugins
+            - run: composer update --no-interaction --prefer-dist
             - run: yarn --cwd tests/Application install
             - run: yarn --cwd tests/Application build
             - run: (cd tests/Application && bin/console assets:install --env=test -vvv)
