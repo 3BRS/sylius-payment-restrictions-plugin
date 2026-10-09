@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## v3.2.0 (2026-10-06)
+
+### Changed
+
+- Updated Symfony dependencies to ^7.4 || ^8.0
+- Removed `symfony/var-exporter` and `symfony/error-handler` `>=8.0` conflicts
+
+### Added
+
+- Sylius 2.3 support
+- Symfony 8 support
+- CI matrix for Sylius 2.3 with PHP 8.3/8.4 and Symfony 7.4/8.1
+
 ## v3.1.0 (2026-02-06)
 
 ### Changed

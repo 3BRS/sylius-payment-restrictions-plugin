@@ -28,6 +28,14 @@
 	<img src="https://github.com/3BRS/sylius-payment-restrictions-plugin/blob/sylius_2_upgrade_AK/doc/admin.png?raw=true">
 </p>
 
+## Requirements
+
+| Package | Version         |
+|---------|-----------------|
+| PHP     | ^8.3            |
+| Sylius  | ^2.1            |
+| Symfony | ^7.4 \|\| ^8.0  |
+
 ## Installation
 
 1. Run `$ composer require 3brs/sylius-payment-restrictions-plugin`
